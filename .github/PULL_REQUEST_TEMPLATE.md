@@ -1,12 +1,23 @@
-# Pull Request
+# 📦 Pull Request
 
-## Descrição
+## 📝 Descrição
+Explique brevemente o que foi feito.
 
-## Tipo de Mudança
-Selecione as opções aplicaveis
+---
 
-[]
-[]
-[]
-[]
+## 🔗 Issues Relacionadas
+Closes: #XX  
+Relates to: #YY  
 
+---
+
+## ✔ Checklist
+- [ ] Código revisado
+- [ ] Atendeu critérios de aceitação
+- [ ] Testado
+- [ ] Documentação atualizada (se necessário)
+
+---
+
+## 📸 Evidências (print / logs)
+(Se houver)
