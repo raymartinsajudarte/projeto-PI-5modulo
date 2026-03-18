@@ -1,4 +1,39 @@
-## UC01 — Realizar Login
+## UC01 — Cadastrar Novo Usuário
+
+### Ator Principal:
+Usuário
+
+### Objetivo:
+Registrar um novo usuário a base de dados do sistema da barbearia.
+
+### Pré-condições:
+- Usuário cadastra as informações necessárias.
+
+### Pós-condições:
+- Registro do usuário criado no banco de dados.
+
+### Fluxo Principal:
+1) O usuário acessa o menu de cadastro de usuário.
+2) Preenche as informações requiridas pelo sistema como nome, email e senha.
+3) O sistema valida as informações dos campos obrigatórios.
+4) O sistema salva as informações no banco de dados e gera o método de login do usuário.
+
+### Fluxos Alternativos:
+- **A1 — Dados Incompletos:**
+O sistema informa que os dados do email estão incompletos.
+
+- **A2 — Dados Insuficientes:**
+O sistema informa que há campos obrigatórios não preenchidos.
+
+### Regras de Negócio:
+- RN01, RN02
+
+### Requisitos Relacionados:
+- RF01
+
+
+
+## UC02 — Realizar Login
 
 ### Ator Principal:
 Usuário
