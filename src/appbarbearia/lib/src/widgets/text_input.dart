@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 class TextInput extends StatelessWidget {
   final String textPlaceholder;
   final bool obscure;
-  final TextEditingController? controller; 
+  final TextEditingController controller; 
 
   const TextInput({
     required this.textPlaceholder,
     required this.obscure,
-    this.controller,
+    required this.controller,
     super.key});
 
   @override
