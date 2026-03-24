@@ -12,16 +12,13 @@ class WelcomePage extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 28),
+            padding: EdgeInsets.symmetric(horizontal: 28),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  'assets/images/logo_barbearia.png',
-                  height: 220,
-                ),
-                const SizedBox(height: 28),
-                const Text(
+                Image.asset('assets/images/logo_barbearia.png', height: 220),
+                SizedBox(height: 28),
+                Text(
                   'Seja bem-vindo!',
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -30,8 +27,8 @@ class WelcomePage extends StatelessWidget {
                     color: Colors.green,
                   ),
                 ),
-                const SizedBox(height: 14),
-                const SizedBox(
+                SizedBox(height: 14),
+                SizedBox(
                   width: 270,
                   child: Text(
                     'Crie uma conta ou conecte-se ao nosso sistema para usufruir dos nossos serviços',
@@ -43,19 +40,18 @@ class WelcomePage extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 36),
+                SizedBox(height: 36),
                 PrimaryButton(
                   text: 'Registre-se aqui',
                   width: 220,
-                  onPressed: () {
-                  },
+                  onPressed: () {},
                 ),
-                const SizedBox(height: 18),
+                SizedBox(height: 18),
                 AuthTextLink(
                   prefixText: 'Já tem uma conta? ',
                   actionText: 'Conecte-se',
-                  onTap: () {
-                  },
+                  onTap: () {},
+                  textSize: 15,
                 ),
               ],
             ),
