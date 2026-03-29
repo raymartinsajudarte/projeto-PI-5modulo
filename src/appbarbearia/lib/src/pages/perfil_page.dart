@@ -10,7 +10,19 @@ class PerfilPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Perfil'), centerTitle: true, titleTextStyle: TextStyle(color:  Color(0xFFF145906), fontSize: 20, fontWeight: FontWeight.bold)),
+      appBar: AppBar(
+        toolbarHeight: 80,
+        centerTitle: true,
+        title: const Padding(
+          padding: EdgeInsets.only(top: 8),
+          child: Text('Perfil'),
+        ),
+        titleTextStyle: const TextStyle(
+          color: Color(0xFF145906),
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
       body: SafeArea(
         child: Center(
           child: Column(
@@ -19,10 +31,14 @@ class PerfilPage extends StatelessWidget {
                 userName: '@maxvallim22',
                 userNameComplete: 'Max Vallim',
               ),
-              PrimaryButton(text: 'Editar Perfil', onPressed: () {}, width: 132),
+              PrimaryButton(
+                text: 'Editar Perfil',
+                onPressed: () {},
+                width: 132,
+              ),
 
               SizedBox(height: 40),
-              
+
               Divider(
                 thickness: 1,
                 color: Colors.grey.shade300,
@@ -30,24 +46,33 @@ class PerfilPage extends StatelessWidget {
                 endIndent: 16,
               ),
 
-              ProfileLinkButton(icon: Icons.password, title: 'Alterar Senha', onTap: (){}),
-              ProfileLinkButton(icon: Icons.calendar_today, title: 'Agendamentos', onTap: (){}),
+              ProfileLinkButton(
+                icon: Icons.password,
+                title: 'Alterar Senha',
+                onTap: () {},
+              ),
+              ProfileLinkButton(
+                icon: Icons.calendar_today,
+                title: 'Agendamentos',
+                onTap: () {},
+              ),
 
               Divider(
                 thickness: 1,
-                color:  Colors.grey.shade300,
+                color: Colors.grey.shade300,
                 indent: 10,
                 endIndent: 10,
               ),
 
-              ProfileLinkButton(icon: Icons.exit_to_app, title: 'Sair', onTap: (){}),
+              ProfileLinkButton(
+                icon: Icons.exit_to_app,
+                title: 'Sair',
+                onTap: () {},
+              ),
 
-              SizedBox(height: 150),
-              
+              SizedBox(height: 140),
+
               BottomNav(),
-
-
-              
             ],
           ),
         ),
