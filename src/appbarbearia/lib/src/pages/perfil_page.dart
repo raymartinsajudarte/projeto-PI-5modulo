@@ -1,0 +1,57 @@
+import 'package:appbarbearia/src/widgets/bottom_nav.dart';
+import 'package:appbarbearia/src/widgets/link_buttons.dart';
+import 'package:appbarbearia/src/widgets/primary_button.dart';
+import 'package:appbarbearia/src/widgets/user_info.dart';
+import 'package:flutter/material.dart';
+
+class PerfilPage extends StatelessWidget {
+  const PerfilPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Perfil'), centerTitle: true, titleTextStyle: TextStyle(color:  Color(0xFFF145906), fontSize: 20, fontWeight: FontWeight.bold)),
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            children: [
+              UserInfoWidget(
+                userName: '@maxvallim22',
+                userNameComplete: 'Max Vallim',
+              ),
+              PrimaryButton(text: 'Editar Perfil', onPressed: () {}, width: 132),
+
+              SizedBox(height: 40),
+              
+              Divider(
+                thickness: 1,
+                color: Colors.grey.shade300,
+                indent: 16,
+                endIndent: 16,
+              ),
+
+              ProfileLinkButton(icon: Icons.password, title: 'Alterar Senha', onTap: (){}),
+              ProfileLinkButton(icon: Icons.calendar_today, title: 'Agendamentos', onTap: (){}),
+
+              Divider(
+                thickness: 1,
+                color:  Colors.grey.shade300,
+                indent: 10,
+                endIndent: 10,
+              ),
+
+              ProfileLinkButton(icon: Icons.exit_to_app, title: 'Sair', onTap: (){}),
+
+              SizedBox(height: 150),
+              
+              BottomNav(),
+
+
+              
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
