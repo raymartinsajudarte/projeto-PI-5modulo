@@ -66,3 +66,76 @@ O sistema informa que não existe nenhum cadastro referente ao login utilizado.
 
 ### Requisitos Relacionados:
 - RF02
+
+
+
+### UC03 — Editar Perfil
+
+### Ator Principal:
+Usuário
+
+### Objetivo: 
+Permitir que o usuário altere informações do seu perfil dentro da plataforma.
+
+### Pré-condições:
+- O usuário deve estar autenticado no sistema.
+
+### Pós-condições:
+- As informações do perfil são atualizadas no banco de dados.
+
+### Fluxo Principal:
+1) O usuário acessa a área de perfil.
+2) O sistema exibe as informações atuais do usuário.
+3) O usuário seleciona a opção de editar perfil.
+4) O usuário altera os dados desejados (nome, e-mail, senha, telefone ou foto).
+5) O sistema valida os dados inseridos.
+6) O sistema salva as alterações no banco de dados.
+
+### Fluxos Alternativos:
+- **A1 — Dados Invalidos:**
+O sistema informa que os dados inseridos são inválidos e solicita correção.
+
+### Regras de Negócio:
+- RN02
+
+### Requisitos Relacionados:
+- RF03
+
+
+
+### UC04 — Realizar Agendamento
+
+### Ator Principal:
+Usuário
+
+### Objetivo:
+Permitir que o usuário agende um horário para atendimento na barbearia.
+
+### Pré-condições:
+- O usuário deve estar autenticado no sistema.
+
+### Pós-condições:
+- O agendamento é registrado no sistema.
+
+### Fluxo Principal:
+1) O usuário acessa a tela de agendamento.
+2) O sistema exibe um calendário contendo as datas.
+3) O usuário seleciona a data desejada.
+4) O usuário seleciona o horário disponível.
+5) O usuário seleciona o tipo do serviço.
+6) O usuário escolhe o método de pagamento.
+7) O sistema confirma o agendamento.
+8) O sistema registra o agendamento no banco de dados.
+
+### Fluxos Alternativos:
+- **A1 — Horário indisponível:**
+O sistema informa que o horário já foi ocupado e solicita nova escolha.
+
+### Regras de Negócio:
+- RN03, RN04, RN07
+
+### Requisitos Relacionados:
+- RF04
+
+
+
