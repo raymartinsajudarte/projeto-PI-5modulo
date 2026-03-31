@@ -1,5 +1,7 @@
 ### Casos de Uso (UC)
 
+##
+
 ## UC01 — Cadastrar Novo Usuário
 
 ### Ator Principal:
