@@ -6,7 +6,7 @@ class BottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(16),
+      margin: EdgeInsets.symmetric(horizontal:0),
       padding: EdgeInsets.symmetric(vertical: 12),
       decoration: BoxDecoration(
         color: Color(0xFFF062200),
