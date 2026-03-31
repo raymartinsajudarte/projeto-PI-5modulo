@@ -1,6 +1,6 @@
-## Casos de Uso (UC)
+### Casos de Uso (UC)
 
-### UC01 — Cadastrar Novo Usuário
+## UC01 — Cadastrar Novo Usuário
 
 ### Ator Principal:
 Usuário
@@ -35,7 +35,7 @@ O sistema informa que há campos obrigatórios não preenchidos.
 
 
 
-### UC02 — Realizar Login
+## UC02 — Realizar Login
 
 ### Ator Principal:
 Usuário
@@ -69,7 +69,7 @@ O sistema informa que não existe nenhum cadastro referente ao login utilizado.
 
 
 
-### UC03 — Editar Perfil
+## UC03 — Editar Perfil
 
 ### Ator Principal:
 Usuário
@@ -103,7 +103,7 @@ O sistema informa que os dados inseridos são inválidos e solicita correção.
 
 
 
-### UC04 — Realizar Agendamento
+## UC04 — Realizar Agendamento
 
 ### Ator Principal:
 Usuário
