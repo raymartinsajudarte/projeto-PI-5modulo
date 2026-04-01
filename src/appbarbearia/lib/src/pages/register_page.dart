@@ -3,11 +3,12 @@ import 'package:appbarbearia/src/widgets/primary_button.dart';
 import 'package:appbarbearia/src/widgets/text_input.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
+class RegisterPage extends StatelessWidget {
   final usernameController = TextEditingController() ;
+  final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  LoginPage({super.key});
+  RegisterPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class LoginPage extends StatelessWidget {
                 SizedBox(height: 40),
 
                 Text(
-                  'Conecte-se Agora!',
+                  'Cadastro de Usuario',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -34,7 +35,7 @@ class LoginPage extends StatelessWidget {
                 SizedBox(height: 12),
 
                 Text(
-                  'Preencha os campos com os seus\ndados cadastrados.',
+                  'Preencha os campos com os seus\ndados.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 12,
@@ -59,6 +60,17 @@ class LoginPage extends StatelessWidget {
                 SizedBox(
                   width: 263,
                   child: TextInput(
+                    textPlaceholder: 'Email',
+                    obscure: true,
+                    controller: emailController,
+                  ),
+                ),
+
+                SizedBox(height: 16),
+
+                SizedBox(
+                  width: 263,
+                  child: TextInput(
                     textPlaceholder: 'Senha',
                     obscure: true,
                     controller: passwordController,
@@ -67,17 +79,17 @@ class LoginPage extends StatelessWidget {
 
                 SizedBox(height: 24),
 
-                PrimaryButton(text: 'Conectar', onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/perfil');
+                PrimaryButton(text: 'Cadastrar', onPressed: () {
+                  Navigator.pushNamed(context, '/login');
                 }, width: 263),
 
                 SizedBox(height: 8),
 
                 AuthTextLink(
-                  prefixText: 'Não possui uma conta?',
-                  actionText: ' Cadastre-se',
+                  prefixText: 'Ja possui uma conta?',
+                  actionText: ' Conecte-se',
                   onTap: () {
-                    Navigator.pushNamed(context, '/register');
+                    Navigator.pushNamed(context, '/login');
                   },
                   textSize: 14,
                 ),
