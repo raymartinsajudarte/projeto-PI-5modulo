@@ -67,14 +67,18 @@ class LoginPage extends StatelessWidget {
 
                 SizedBox(height: 24),
 
-                PrimaryButton(text: 'Conectar', onPressed: () {}, width: 263),
+                PrimaryButton(text: 'Conectar', onPressed: () {
+                  Navigator.pushReplacementNamed(context, '/perfil');
+                }, width: 263),
 
                 SizedBox(height: 8),
 
                 AuthTextLink(
                   prefixText: 'Não possui uma conta?',
                   actionText: ' Cadastre-se',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, '/register');
+                  },
                   textSize: 14,
                 ),
               ],

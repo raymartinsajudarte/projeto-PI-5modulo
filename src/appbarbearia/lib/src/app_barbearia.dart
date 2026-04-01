@@ -1,6 +1,7 @@
 import 'package:appbarbearia/src/pages/login_page.dart';
 import 'package:appbarbearia/src/pages/perfil_page.dart';
 import 'package:appbarbearia/src/pages/register_page.dart';
+import 'package:appbarbearia/src/pages/edit_user_page.dart';
 import 'package:flutter/material.dart';
 import 'pages/welcome_page.dart';
 
@@ -12,7 +13,16 @@ class AppBarbearia extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'App Barbearia',
-      home: PerfilPage(),
+
+      initialRoute: '/welcome',
+
+      routes: {
+        '/welcome': (context) => WelcomePage(),
+        '/login': (context) => LoginPage(),
+        '/register': (context) => RegisterPage(),
+        '/perfil': (context) => PerfilPage(),
+        '/edit-user': (context) => EditUserPage(),
+      },
     );
   }
 }

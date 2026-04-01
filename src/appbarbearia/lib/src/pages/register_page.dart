@@ -79,14 +79,18 @@ class RegisterPage extends StatelessWidget {
 
                 SizedBox(height: 24),
 
-                PrimaryButton(text: 'Cadastrar', onPressed: () {}, width: 263),
+                PrimaryButton(text: 'Cadastrar', onPressed: () {
+                  Navigator.pushNamed(context, '/login');
+                }, width: 263),
 
                 SizedBox(height: 8),
 
                 AuthTextLink(
                   prefixText: 'Ja possui uma conta?',
                   actionText: ' Conecte-se',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, '/login');
+                  },
                   textSize: 14,
                 ),
               ],

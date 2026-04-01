@@ -13,7 +13,7 @@ class PerfilPage extends StatelessWidget {
       appBar: AppBar(
         toolbarHeight: 80,
         centerTitle: true,
-        title: const Padding(
+        title:  Padding(
           padding: EdgeInsets.only(top: 8),
           child: Text('Perfil'),
         ),
@@ -33,7 +33,9 @@ class PerfilPage extends StatelessWidget {
               ),
               PrimaryButton(
                 text: 'Editar Perfil',
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/edit-user');
+                },
                 width: 132,
               ),
 
