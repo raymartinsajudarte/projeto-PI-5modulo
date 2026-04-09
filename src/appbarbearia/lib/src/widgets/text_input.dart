@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 class TextInput extends StatelessWidget {
   final String textPlaceholder;
   final bool obscure;
@@ -7,6 +9,9 @@ class TextInput extends StatelessWidget {
   final Color? fillColor;
   final bool filled;
 
+  final List<TextInputFormatter>? inputFormatters; // NOVO
+  final TextInputType? keyboardType; // NOVO
+
   const TextInput({
     this.textPlaceholder = '',
     required this.obscure,
@@ -14,6 +19,8 @@ class TextInput extends StatelessWidget {
     this.label,
     this.fillColor,
     this.filled = false,
+    this.inputFormatters, // NOVO
+    this.keyboardType, // NOVO
     super.key,
   });
 
@@ -25,21 +32,25 @@ class TextInput extends StatelessWidget {
         if (label != null) ...[
           Text(
             label!,
-            style: TextStyle(fontSize: 12, color: Color(0xFF999999)),
+            style: const TextStyle(fontSize: 12, color: Color(0xFF999999)),
           ),
-          SizedBox(height: 6),
+          const SizedBox(height: 6),
         ],
 
         TextField(
           controller: controller,
           obscureText: obscure,
-          style: TextStyle(fontSize: 14, color: Color(0xFF222222)),
+          inputFormatters: inputFormatters, // AQUI
+          keyboardType: keyboardType, // AQUI
+          style: const TextStyle(fontSize: 14, color: Color(0xFF222222)),
           decoration: InputDecoration(
             filled: filled,
             fillColor: fillColor,
             hintText: textPlaceholder,
-            contentPadding: EdgeInsets.all(12),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
+            contentPadding: const EdgeInsets.all(12),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(6),
+            ),
           ),
         ),
       ],

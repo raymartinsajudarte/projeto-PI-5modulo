@@ -44,13 +44,17 @@ class WelcomePage extends StatelessWidget {
                 PrimaryButton(
                   text: 'Registre-se aqui',
                   width: 220,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, '/register');
+                  },
                 ),
                 SizedBox(height: 18),
                 AuthTextLink(
                   prefixText: 'Já tem uma conta? ',
                   actionText: 'Conecte-se',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushReplacementNamed(context, '/login');
+                  },
                   textSize: 15,
                 ),
               ],
