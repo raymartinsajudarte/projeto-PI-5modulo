@@ -1,3 +1,4 @@
+import 'package:appbarbearia/src/pages/agentamento_page.dart';
 import 'package:appbarbearia/src/pages/login_page.dart';
 import 'package:appbarbearia/src/pages/perfil_page.dart';
 import 'package:appbarbearia/src/pages/register_page.dart';
@@ -22,6 +23,7 @@ class AppBarbearia extends StatelessWidget {
         '/register': (context) => RegisterPage(),
         '/perfil': (context) => PerfilPage(),
         '/edit-user': (context) => EditUserPage(),
+        '/agendamento': (context) => AgendamentoPage(),
       },
     );
   }

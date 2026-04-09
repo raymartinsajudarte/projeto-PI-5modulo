@@ -24,7 +24,8 @@ class PerfilPage extends StatelessWidget {
         ),
       ),
       body: SafeArea(
-        child: Center(
+        child: Padding(
+          padding: EdgeInsets.all(16),
           child: Column(
             children: [
               UserInfoWidget(
@@ -69,7 +70,9 @@ class PerfilPage extends StatelessWidget {
               ProfileLinkButton(
                 icon: Icons.exit_to_app,
                 title: 'Sair',
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushReplacementNamed(context, '/welcome');
+                },
               ),
 
               SizedBox(height: 140),

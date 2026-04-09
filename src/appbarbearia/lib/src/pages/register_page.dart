@@ -1,16 +1,74 @@
+import 'package:appbarbearia/src/services/register_service.dart';
 import 'package:appbarbearia/src/widgets/auth_text_link.dart';
 import 'package:appbarbearia/src/widgets/primary_button.dart';
 import 'package:appbarbearia/src/widgets/text_input.dart';
+import 'package:appbarbearia/src/formatters/phone_formatter.dart';
+import 'package:appbarbearia/src/formatters/username_formatter.dart';
 import 'package:flutter/material.dart';
 
-class RegisterPage extends StatelessWidget {
-  final usernameController = TextEditingController() ;
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-
+class RegisterPage extends StatefulWidget {
   RegisterPage({super.key});
 
   @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  final usernameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final phoneController = TextEditingController();
+  final nameController = TextEditingController();
+
+  Future<void> handleRegister() async {
+    final username = usernameController.text.trim();
+    final email = emailController.text.trim();
+    final password = passwordController.text.trim();
+    final phone = phoneController.text.replaceAll(RegExp(r'\D'), '');
+    final name = nameController.text.trim();
+
+    if (username.isEmpty ||
+        email.isEmpty ||
+        password.isEmpty ||
+        phone.isEmpty ||
+        name.isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Preencha todos os campos!')));
+      return;
+    }
+
+    try {
+      final res = await RegisterService().register(
+        nome: name,
+        nomeUsuario: username,
+        celular: phone,
+        email: email,
+        senha: password,
+      );
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Cadastrado com Sucesso!')));
+
+      Navigator.pushReplacementNamed(context, '/login');
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Erro ao Conectar: $e')));
+    }
+  }
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    phoneController.dispose();
+    nameController.dispose();
+    super.dispose();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -49,9 +107,21 @@ class RegisterPage extends StatelessWidget {
                 SizedBox(
                   width: 263,
                   child: TextInput(
+                    textPlaceholder: 'Nome Completo',
+                    obscure: false,
+                    controller: nameController,
+                  ),
+                ),
+
+                SizedBox(height: 16),
+
+                SizedBox(
+                  width: 263,
+                  child: TextInput(
                     textPlaceholder: 'Nome de Usuario',
                     obscure: false,
                     controller: usernameController,
+                    inputFormatters: [UsernameInputFormatter()],
                   ),
                 ),
 
@@ -61,8 +131,22 @@ class RegisterPage extends StatelessWidget {
                   width: 263,
                   child: TextInput(
                     textPlaceholder: 'Email',
-                    obscure: true,
+                    obscure: false,
                     controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+                ),
+
+                SizedBox(height: 16),
+
+                SizedBox(
+                  width: 263,
+                  child: TextInput(
+                    textPlaceholder: 'Celular',
+                    obscure: false,
+                    controller: phoneController,
+                    keyboardType: TextInputType.phone,
+                    inputFormatters: [PhoneInputFormatter()],
                   ),
                 ),
 
@@ -79,9 +163,13 @@ class RegisterPage extends StatelessWidget {
 
                 SizedBox(height: 24),
 
-                PrimaryButton(text: 'Cadastrar', onPressed: () {
-                  Navigator.pushNamed(context, '/login');
-                }, width: 263),
+                PrimaryButton(
+                  text: 'Cadastrar',
+                  onPressed: () {
+                    handleRegister();
+                  },
+                  width: 263,
+                ),
 
                 SizedBox(height: 8),
 
@@ -89,7 +177,7 @@ class RegisterPage extends StatelessWidget {
                   prefixText: 'Ja possui uma conta?',
                   actionText: ' Conecte-se',
                   onTap: () {
-                    Navigator.pushNamed(context, '/login');
+                    Navigator.pushReplacementNamed(context, '/login');
                   },
                   textSize: 14,
                 ),
