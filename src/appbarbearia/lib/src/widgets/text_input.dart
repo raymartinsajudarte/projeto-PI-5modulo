@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-
-import 'package:flutter/material.dart';
-
 class TextInput extends StatelessWidget {
   final String textPlaceholder;
   final bool obscure;
