@@ -7,6 +7,7 @@ const router = express.Router();
 
 router.get('/', UserControllers.list);
 router.post('/', UserControllers.create);
-router.post('/:id/foto', upload.single('foto'), UserControllers.uploadFoto)
+router.post('/:id/foto', upload.single('foto'), UserControllers.uploadFoto);
+router.get('/:id', UserControllers.show);
 
 module.exports = router;

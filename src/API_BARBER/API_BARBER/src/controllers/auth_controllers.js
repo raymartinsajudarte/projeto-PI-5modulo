@@ -10,6 +10,7 @@ exports.login = async(req, res) => {
             `SELECT 
                 a.id_usuario, 
                 a.nome, 
+                a.nome_usuario,
                 a.email, 
                 a.foto,
                 a.senha_hash,
@@ -40,6 +41,7 @@ exports.login = async(req, res) => {
             user: {
                 id: usuario.id_usuario,
                 nome: usuario.nome,
+                nome_usuario: usuario.nome_usuario,
                 email: usuario.email,
                 foto: usuario.foto
                 ? `${process.env.BASE_URL}${usuario.foto}`
