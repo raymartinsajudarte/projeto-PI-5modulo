@@ -93,3 +93,47 @@ exports.uploadFoto = async(req,res) => {
     }
 }
 
+
+//Adicionado para buscar um usuario, para mostrar no perfil os dados.
+exports.show = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const [rows] = await pool.query(
+            `SELECT 
+                id_usuario,
+                nome,
+                nome_usuario,
+                email,
+                celular,
+                foto
+            FROM tb_usuarios
+            WHERE id_usuario = ?`,
+            [id]
+        );
+
+        if (rows.length === 0) {
+            return res.status(404).json({
+                error: 'Usuário não encontrado'
+            });
+        }
+
+        const usuario = rows[0];
+
+        res.status(200).json({
+            id: usuario.id_usuario,
+            nome: usuario.nome,
+            nome_usuario: usuario.nome_usuario,
+            email: usuario.email,
+            celular: usuario.celular,
+            foto: usuario.foto
+                ? `${process.env.BASE_URL}${usuario.foto}`
+                : null
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            error: 'Erro ao buscar usuário'
+        });
+    }
+};
