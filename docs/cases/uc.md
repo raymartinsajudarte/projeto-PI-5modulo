@@ -34,6 +34,9 @@ O sistema informa que há campos obrigatórios não preenchidos.
 ### Requisitos Relacionados:
 - RF01
 
+### Diagrama do Caso de Uso - 01
+![Diagrama](https://github.com/raymartinsajudarte/projeto-PI-5modulo/blob/main/docs/cases/diagrama/uc01.png)
+
 
 
 ## UC02 — Realizar Login
@@ -68,6 +71,9 @@ O sistema informa que não existe nenhum cadastro referente ao login utilizado.
 ### Requisitos Relacionados:
 - RF02
 
+### Diagrama do Caso de Uso - 02
+![Diagrama](https://github.com/raymartinsajudarte/projeto-PI-5modulo/blob/main/docs/cases/diagrama/uc02.png)
+
 
 
 ## UC03 — Editar Perfil
@@ -101,6 +107,9 @@ O sistema informa que os dados inseridos são inválidos e solicita correção.
 
 ### Requisitos Relacionados:
 - RF03
+
+### Diagrama do Caso de Uso - 03
+![Diagrama](https://github.com/raymartinsajudarte/projeto-PI-5modulo/blob/main/docs/cases/diagrama/uc03.png)
 
 
 
@@ -138,5 +147,7 @@ O sistema informa que o horário já foi ocupado e solicita nova escolha.
 ### Requisitos Relacionados:
 - RF04
 
+### Diagrama do Caso de Uso - 04
+![Diagrama](https://github.com/raymartinsajudarte/projeto-PI-5modulo/blob/main/docs/cases/diagrama/uc04.png)
 
 
