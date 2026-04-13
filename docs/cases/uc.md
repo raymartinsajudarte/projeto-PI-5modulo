@@ -151,3 +151,41 @@ O sistema informa que o horário já foi ocupado e solicita nova escolha.
 ![Diagrama](https://github.com/raymartinsajudarte/projeto-PI-5modulo/blob/main/docs/cases/diagrama/uc04.png)
 
 
+
+## UC05 — Interação com a IA
+
+### Ator Principal:
+Usuário
+
+### Objetivo:
+Permitir que o usuário interaja com um assistente virtual para obter ajuda.
+
+### Pré-condições:
+- O usuário deve estar autenticado no sistema.
+
+### Pós-condições:
+- O usuário recebe orientações ou realiza um agendamento através do chat.
+
+### Fluxo Principal:
+1) O usuário acessa a tela de chat.
+2) O sistema exibe uma mensagem inicial de boas-vindas.
+3) O usuário digita uma mensagem solicitando ajuda ou serviço.
+4) O sistema processa a mensagem do usuário.
+5) O sistema responde com informações ou opções de agendamento.
+6) O usuário pode continuar a interação até concluir sua solicitação.
+
+### Fluxos Alternativos:
+- **A1 — Mensagem não compreendida:**
+O sistema informa que não entendeu a solicitação e pede para o usuário reformular a mensagem.
+
+- **A2 — Falha na comunicação:**
+O sistema informa que ocorreu um erro e solicita que o usuário tente novamente.
+
+### Regras de Negócio:
+- RN08
+
+### Requisitos Relacionados:
+- RF08
+
+### Diagrama do Caso de Uso - 05
+![Diagrama]()
