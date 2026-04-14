@@ -26,3 +26,6 @@ Admin --> (Cadastro)
 Admin --> (Gerenciar Serviços)
 
 @enduml
+
+### Diagrama
+![Diagrama](https://github.com/raymartinsajudarte/projeto-PI-5modulo/blob/main/docs/cases/diagrama/uc.png)
