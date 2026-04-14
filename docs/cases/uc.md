@@ -188,4 +188,4 @@ O sistema informa que ocorreu um erro e solicita que o usuário tente novamente.
 - RF08
 
 ### Diagrama do Caso de Uso - 05
-![Diagrama]()
+![Diagrama](https://github.com/raymartinsajudarte/projeto-PI-5modulo/blob/main/docs/cases/diagrama/uc05.png)
