@@ -137,3 +137,56 @@ exports.show = async (req, res) => {
         });
     }
 };
+
+exports.update = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { nome, nome_usuario, email, celular, senha } = req.body;
+
+        // 1. Verificar se o usuário existe antes de tentar atualizar
+        const [userCheck] = await pool.query('SELECT id_usuario FROM tb_usuarios WHERE id_usuario = ?', [id]);
+        if (userCheck.length === 0) {
+            return res.status(404).json({ error: 'Usuário não encontrado' });
+        }
+
+        // 2. Construir a Query dinamicamente
+        let fields = [];
+        let values = [];
+
+        if (nome) { fields.push('nome = ?'); values.push(nome); }
+        if (nome_usuario) { fields.push('nome_usuario = ?'); values.push(nome_usuario); }
+        if (email) { fields.push('email = ?'); values.push(email); }
+        if (celular) { fields.push('celular = ?'); values.push(celular); }
+        
+        // Tratar a senha: se enviada, gera novo hash
+        if (senha) {
+            const salt_rounds = 10;
+            const senha_hash = await bcrypt.hash(senha, salt_rounds);
+            fields.push('senha_hash = ?');
+            values.push(senha_hash);
+        }
+
+        // Se nenhum dado foi enviado no corpo da requisição
+        if (fields.length === 0) {
+            return res.status(400).json({ error: 'Nenhum dado fornecido para atualização' });
+        }
+
+        // Adicionar o ID ao final do array de valores para o WHERE
+        values.push(id);
+
+        // 3. Executar o Update
+        const query = `UPDATE tb_usuarios SET ${fields.join(', ')} WHERE id_usuario = ?`;
+        await pool.query(query, values);
+
+        res.status(200).json({
+            message: 'Usuário atualizado com sucesso'
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: 'Erro ao atualizar usuário',
+            details: error.message
+        });
+    }
+};
