@@ -32,6 +32,20 @@ POST: http://localhost:3000/users
     "email": "joao.teste@gmail.com"
 }
 
+# Rota para update de informações do usuário
+## Atualização de usuarios:
+PUT: http://localhost:3000/users/id
+### formato arquivo JSON: (Todas as informações podem ser enviadas independentemente uma da outra, se não forem enviadas manteremos o que está no banco de dados)
+{
+ "nome":"João Victor Viana",
+ "nome_usuario":"JoãoViana96",
+ "email":"joao.teste@gmail.com",
+ "celular":"19988880000",
+ "senha":"123456"
+}
+### Retorno:
+{"message":"Usuário atualizado com sucesso"}
+
 --- 
 
 ## Rota de Login
@@ -172,6 +186,8 @@ Não precisa enviar nada
 }
 
 ---
+
+
 
 ### proximas rotas
 
