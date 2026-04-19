@@ -130,22 +130,54 @@ Precisa enviar a imagem nesse esquema abaixo
 
 ---
 
-SUBIR REPOSITORIO PARA O GIT NA PASTA SRC
-UMA PASTA PARA A API
-UMA PASTA PARA O DUMP DO BANCO
+## Rota de agendamentos
+POST: http://localhost:3000/appointments
+### Formato do arquivo de envio (servicos em formato array)
+{
+  "id_usuario": 2,
+  "id_pagamento": 3,
+  "valor_total": 75.00,
+  "dia": "2026-04-23",
+  "hora": "10:00:00",
+  "servicos": [
+    {"id_servico": 1, "valor_unitario": 40.00},
+    {"id_servico": 2, "valor_unitario": 25.00},
+    {"id_servico": 3, "valor_unitario": 10.00}
+  ]
+}
+### Após inserção retorno será:
+{"message":"Agendamento criado com sucesso!","id":4}
+
+---
+
+## Listagem dos agendamentos registrados
+Para bloquear as datas de seleção ou ocultar os dias e hora que já possuem agendamentos:
+
+## Rota de retorno dos agendamentos
+GET: http://localhost:3000/appointments
+## Envio:
+Não precisa enviar nada
+## Formato do retorno:
+{
+    "dia":"2026-04-20",
+    "hora":"14:00:00"
+},
+{
+    "dia":"2026-04-22",
+    "hora":"16:00:00"
+},
+{
+    "dia":"2026-04-23",
+    "hora":"10:00:00"
+}
+
+---
 
 ### proximas rotas
 
 * editar perfil (reenviar todos os campos independente de serem alterados)
 
-* pensar em como vai ser a questão do agendamento. 
-
 * historico (criar uma view bem estruturada com informações essenciais)
-
----
-
-
-
 
 
 
