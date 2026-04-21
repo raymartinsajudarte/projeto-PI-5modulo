@@ -11,6 +11,9 @@ EX:
     BASE_URL=http://192.168.111.111:3000 -> isso aqui vai ser necessário pra funcionar a busca da foto pra carregar em tela.
 PORT=porta pra subir a api
 
+COLOCAR AS INFORMAÇÕES DA COMUNICAÇÃO COM O E-MAIL vou enviar em particular para os testes:
+RESEND_API_KEY=chave da api do RESEND
+
 ---
 
 # Rota padrão pra consulta
@@ -49,7 +52,7 @@ PUT: http://localhost:3000/users/id
 --- 
 
 ## Rota de Login
-POST:  http://localhost:3000/login
+POST:  http://localhost:3000/auth/login
 ### formato de arquivo JSON
 {
  "nome_usuario":"JoãoViana96",
@@ -65,6 +68,28 @@ POST:  http://localhost:3000/login
         "email":"joao.teste@gmail.com"
     }
 }
+
+---
+## Rota de esqueceu a senha 
+POST: http://localhost:3000/auth/forgot-password 
+vai receber o token diretamente no e-mail
+### arquivo de envio
+{
+    "email": "seu-email-cadastrado@exemplo.com"
+}
+### retorno 
+{"message":"E-mail enviado com sucesso!","id":"id do envio do e-mail NÃO é o token"}
+
+
+## Rota de redefinição de senha
+POST: http://localhost:3000/auth/reset-password
+### Arquivo de envio
+{
+    "token": "cole_aqui_o_token_gerado_no_banco_ou_recebido_no_email",
+    "nova_senha": "senhanovaaqui"
+}
+### retorno
+{"message":"Senha redefinida com sucesso!"}
 
 ---
 
