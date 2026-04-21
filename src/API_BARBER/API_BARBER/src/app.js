@@ -11,7 +11,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use('/users',userRoutes);
-app.use('/login',authRoutes);
+app.use('/auth',authRoutes);
 app.use('/services',servicesRoutes);
 app.use('/payments',paymentsRoutes);
 app.use('/uploads', express.static('uploads'));
