@@ -1,11 +1,12 @@
 import 'package:appbarbearia/src/widgets/auth_text_link.dart';
 import 'package:appbarbearia/src/widgets/primary_button.dart';
 import 'package:appbarbearia/src/widgets/text_input.dart';
-import 'package:appbarbearia/src/services/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../viewmodels/login_view_model.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({super.key});
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -15,41 +16,6 @@ class _LoginPageState extends State<LoginPage> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
-  Future<void> handleLogin() async {
-    final username = usernameController.text.trim();
-    final password = passwordController.text.trim();
-
-    if (username.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Preencha os campos!')));
-      return;
-    }
-
-    try {
-      final res = await AuthService().login(
-        username: username,
-        password: password,
-      );
-
-      if (res.user != null) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(res.message)));
-
-        Navigator.pushReplacementNamed(context, '/perfil');
-      } else {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(res.message)));
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Erro ao Conectar: $e')));
-    }
-  }
-
   @override
   void dispose() {
     usernameController.dispose();
@@ -57,19 +23,41 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
+  Future<void> _handleLogin() async {
+    final vm = context.read<LoginViewModel>();
+
+    final success = await vm.login(
+      username: usernameController.text.trim(),
+      password: passwordController.text.trim(),
+    );
+
+    if (!mounted) return;
+
+    if (success) {
+      Navigator.pushReplacementNamed(context, '/perfil');
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(vm.errorMessage ?? 'Erro ao conectar.')),
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final vm = context.watch<LoginViewModel>();
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
           child: Center(
             child: Column(
               children: [
                 Image.asset('images/logo_barbearia.png', height: 200),
 
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
 
-                Text(
+                const Text(
                   'Conecte-se Agora!',
                   style: TextStyle(
                     fontSize: 24,
@@ -78,9 +66,9 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
 
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
 
-                Text(
+                const Text(
                   'Preencha os campos com os seus\ndados cadastrados.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -90,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
 
-                SizedBox(height: 32),
+                const SizedBox(height: 32),
 
                 SizedBox(
                   width: 263,
@@ -101,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
 
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
 
                 SizedBox(
                   width: 263,
@@ -112,24 +100,23 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
 
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
 
-                PrimaryButton(
-                  text: 'Conectar',
-                  onPressed: () {
-                    handleLogin();
-                  },
-                  width: 263,
-                ),
+                vm.isLoading
+                    ? const CircularProgressIndicator()
+                    : PrimaryButton(
+                        text: 'Conectar',
+                        onPressed: _handleLogin,
+                        width: 263,
+                      ),
 
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
 
                 AuthTextLink(
                   prefixText: 'Não possui uma conta?',
                   actionText: ' Cadastre-se',
-                  onTap: () {
-                    Navigator.pushReplacementNamed(context, '/register');
-                  },
+                  onTap: () =>
+                      Navigator.pushReplacementNamed(context, '/register'),
                   textSize: 14,
                 ),
               ],
