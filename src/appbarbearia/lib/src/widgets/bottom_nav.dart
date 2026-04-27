@@ -6,16 +6,21 @@ class BottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal:0),
+      margin: EdgeInsets.symmetric(horizontal: 0),
       padding: EdgeInsets.symmetric(vertical: 12),
       decoration: BoxDecoration(
-        color: Color(0xFFF062200),
+        color: Color(0xFF062200),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _NavItem(icon: Icons.calendar_today, label: "Agendar"),
+          _NavItem(
+            icon: Icons.calendar_today,
+            label: "Agendar",
+            onTap: () =>
+                Navigator.pushReplacementNamed(context, '/agendamento'),
+          ),
           _NavItem(icon: Icons.person, label: "Profile"),
           _NavItem(icon: Icons.auto_awesome, label: "IA"),
         ],
@@ -27,18 +32,22 @@ class BottomNav extends StatelessWidget {
 class _NavItem extends StatelessWidget {
   final IconData icon;
   final String label;
+  final VoidCallback? onTap;
 
-  const _NavItem({required this.icon, required this.label});
+  const _NavItem({required this.icon, required this.label, this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(icon, color: Colors.greenAccent),
-        SizedBox(height: 4),
-        Text(label, style: TextStyle(color: Colors.white)),
-      ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, color: Colors.greenAccent),
+          SizedBox(height: 4),
+          Text(label, style: TextStyle(color: Colors.white)),
+        ],
+      ),
     );
   }
 }

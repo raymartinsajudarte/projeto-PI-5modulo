@@ -1,13 +1,14 @@
-import 'package:appbarbearia/src/services/register_service.dart';
 import 'package:appbarbearia/src/widgets/auth_text_link.dart';
 import 'package:appbarbearia/src/widgets/primary_button.dart';
 import 'package:appbarbearia/src/widgets/text_input.dart';
 import 'package:appbarbearia/src/formatters/phone_formatter.dart';
 import 'package:appbarbearia/src/formatters/username_formatter.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../viewmodels/register_view_model.dart';
 
 class RegisterPage extends StatefulWidget {
-  RegisterPage({super.key});
+  const RegisterPage({super.key});
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -20,45 +21,6 @@ class _RegisterPageState extends State<RegisterPage> {
   final phoneController = TextEditingController();
   final nameController = TextEditingController();
 
-  Future<void> handleRegister() async {
-    final username = usernameController.text.trim();
-    final email = emailController.text.trim();
-    final password = passwordController.text.trim();
-    final phone = phoneController.text.replaceAll(RegExp(r'\D'), '');
-    final name = nameController.text.trim();
-
-    if (username.isEmpty ||
-        email.isEmpty ||
-        password.isEmpty ||
-        phone.isEmpty ||
-        name.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Preencha todos os campos!')));
-      return;
-    }
-
-    try {
-      final res = await RegisterService().register(
-        nome: name,
-        nomeUsuario: username,
-        celular: phone,
-        email: email,
-        senha: password,
-      );
-
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Cadastrado com Sucesso!')));
-
-      Navigator.pushReplacementNamed(context, '/login');
-    } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Erro ao Conectar: $e')));
-    }
-  }
-
   @override
   void dispose() {
     usernameController.dispose();
@@ -69,19 +31,47 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
+  Future<void> _handleRegister() async {
+    final vm = context.read<RegisterViewModel>();
+
+    final success = await vm.register(
+      nome: nameController.text.trim(),
+      nomeUsuario: usernameController.text.trim(),
+      email: emailController.text.trim(),
+      celular: phoneController.text.replaceAll(RegExp(r'\D'), ''),
+      senha: passwordController.text.trim(),
+    );
+
+    if (!mounted) return;
+
+    if (success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Cadastrado com Sucesso!')),
+      );
+      Navigator.pushReplacementNamed(context, '/login');
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(vm.errorMessage ?? 'Erro ao cadastrar.')),
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final vm = context.watch<RegisterViewModel>();
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
           child: Center(
             child: Column(
               children: [
                 Image.asset('images/logo_barbearia.png', height: 200),
 
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
 
-                Text(
+                const Text(
                   'Cadastro de Usuario',
                   style: TextStyle(
                     fontSize: 24,
@@ -90,9 +80,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
 
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
 
-                Text(
+                const Text(
                   'Preencha os campos com os seus\ndados.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -102,7 +92,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
 
-                SizedBox(height: 32),
+                const SizedBox(height: 32),
 
                 SizedBox(
                   width: 263,
@@ -113,7 +103,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
 
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
 
                 SizedBox(
                   width: 263,
@@ -125,7 +115,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
 
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
 
                 SizedBox(
                   width: 263,
@@ -137,7 +127,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
 
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
 
                 SizedBox(
                   width: 263,
@@ -150,7 +140,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
 
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
 
                 SizedBox(
                   width: 263,
@@ -161,24 +151,23 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
 
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
 
-                PrimaryButton(
-                  text: 'Cadastrar',
-                  onPressed: () {
-                    handleRegister();
-                  },
-                  width: 263,
-                ),
+                vm.isLoading
+                    ? const CircularProgressIndicator()
+                    : PrimaryButton(
+                        text: 'Cadastrar',
+                        onPressed: _handleRegister,
+                        width: 263,
+                      ),
 
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
 
                 AuthTextLink(
                   prefixText: 'Ja possui uma conta?',
                   actionText: ' Conecte-se',
-                  onTap: () {
-                    Navigator.pushReplacementNamed(context, '/login');
-                  },
+                  onTap: () =>
+                      Navigator.pushReplacementNamed(context, '/login'),
                   textSize: 14,
                 ),
               ],
