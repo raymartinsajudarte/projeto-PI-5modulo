@@ -17,7 +17,9 @@ class _PerfilPageState extends State<PerfilPage> {
   @override
   void initState() {
     super.initState();
-    context.read<PerfilViewModel>().loadUser();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<PerfilViewModel>().loadUser();
+    });
   }
 
   @override
@@ -25,9 +27,7 @@ class _PerfilPageState extends State<PerfilPage> {
     final vm = context.watch<PerfilViewModel>();
 
     if (vm.isLoading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     if (vm.user == null) {
@@ -81,7 +81,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 icon: Icons.calendar_today,
                 title: 'Agendamentos',
                 onTap: () =>
-                    Navigator.pushReplacementNamed(context, '/agendamento'),
+                    Navigator.pushReplacementNamed(context, ''),
               ),
               Divider(
                 thickness: 1,

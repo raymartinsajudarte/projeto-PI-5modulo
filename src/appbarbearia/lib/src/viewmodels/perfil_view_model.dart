@@ -14,6 +14,8 @@ class PerfilViewModel extends ChangeNotifier {
 
     user = await _authService.getLoggedUser();
 
+    PaintingBinding.instance.imageCache.clear();
+
     isLoading = false;
     notifyListeners();
   }
