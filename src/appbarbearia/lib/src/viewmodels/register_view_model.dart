@@ -10,13 +10,11 @@ class RegisterViewModel extends ChangeNotifier {
     required String nome,
     required String nomeUsuario,
     required String email,
-    required String celular,
     required String senha,
   }) async {
     if (nome.isEmpty ||
         nomeUsuario.isEmpty ||
         email.isEmpty ||
-        celular.isEmpty ||
         senha.isEmpty) {
       errorMessage = 'Preencha todos os campos!';
       notifyListeners();
@@ -31,7 +29,6 @@ class RegisterViewModel extends ChangeNotifier {
       await RegisterService().register(
         nome: nome,
         nomeUsuario: nomeUsuario,
-        celular: celular,
         email: email,
         senha: senha,
       );

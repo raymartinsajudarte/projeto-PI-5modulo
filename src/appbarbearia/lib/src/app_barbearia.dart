@@ -7,6 +7,7 @@ import 'package:appbarbearia/src/viewmodels/agendamento_view_model.dart';
 import 'package:appbarbearia/src/viewmodels/login_view_model.dart';
 import 'package:appbarbearia/src/viewmodels/perfil_view_model.dart';
 import 'package:appbarbearia/src/viewmodels/register_view_model.dart';
+import 'package:appbarbearia/src/viewmodels/edit_user_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'pages/welcome_page.dart';
@@ -22,6 +23,8 @@ class AppBarbearia extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => RegisterViewModel()),
         ChangeNotifierProvider(create: (_) => PerfilViewModel()),
         ChangeNotifierProvider(create: (_) => AgendamentoViewModel()),
+        ChangeNotifierProvider(create: (_) => EditUserViewModel()),
+
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

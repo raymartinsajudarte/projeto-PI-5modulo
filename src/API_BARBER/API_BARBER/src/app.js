@@ -17,4 +17,5 @@ app.use('/payments',paymentsRoutes);
 app.use('/uploads', express.static('uploads'));
 app.use('/appointments',appointmensRoutes);
 
+
 module.exports = app;
