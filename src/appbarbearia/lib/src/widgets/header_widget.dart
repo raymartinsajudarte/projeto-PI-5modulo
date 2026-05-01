@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class HeaderWidget extends StatelessWidget {
   final String title;
+  final String? backRoute;
 
-  const HeaderWidget({super.key, required this.title});
+  const HeaderWidget({super.key, required this.title, this.backRoute});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +13,13 @@ class HeaderWidget extends StatelessWidget {
       child: Row(
         children: [
           GestureDetector(
-            onTap: () => Navigator.pop(context),
+            onTap: () {
+              if (backRoute != null) {
+                Navigator.pushReplacementNamed(context, backRoute!);
+              } else {
+                Navigator.pop(context);
+              }
+            },
             child:  Icon(
               Icons.arrow_back,
               color: Color(0xFF158F00),

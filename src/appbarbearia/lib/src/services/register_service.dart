@@ -9,7 +9,6 @@ class RegisterService {
     required String nome,
     required String nomeUsuario,
     required String email,
-    required String celular,
     required String senha,
   }) async {
     final url = Uri.parse('$baseUrl/users');
@@ -23,7 +22,6 @@ class RegisterService {
         'nome': nome,
         'nome_usuario': nomeUsuario,
         'email': email,
-        'celular': celular,
         'senha': senha,
       }),
     );

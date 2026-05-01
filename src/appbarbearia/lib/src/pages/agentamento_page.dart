@@ -51,7 +51,7 @@ class _AgendamentoPageState extends State<AgendamentoPage> {
               height: 80,
               padding: const EdgeInsets.symmetric(horizontal: 16),
               alignment: Alignment.center,
-              child: const HeaderWidget(title: 'Agendar Horário'),
+              child: const HeaderWidget(title: 'Agendar Horário', backRoute: '/perfil'),
             ),
             Divider(
               thickness: 1,

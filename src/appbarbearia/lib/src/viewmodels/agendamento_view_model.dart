@@ -193,8 +193,32 @@ class AgendamentoViewModel extends ChangeNotifier {
     notifyListeners();
     try {
       final blocked = await _appointmentService.getUnavailableTimes(dia);
+
+      final now = DateTime.now();
+      final isToday =
+          dia.year == now.year && dia.month == now.month && dia.day == now.day;
+
+      if (isToday) {
+        final allTimes = [...morningTimes, ...afternoonTimes];
+        for (final time in allTimes) {
+          final parts = time.split(':');
+          final timeHour = int.parse(parts[0]);
+          final timeMinute = int.parse(parts[1]);
+          final horario = DateTime(
+            now.year,
+            now.month,
+            now.day,
+            timeHour,
+            timeMinute,
+          );
+          if (horario.isBefore(now) && !blocked.contains(time)) {
+            blocked.add(time);
+          }
+        }
+      }
+
       unavailableTimes = blocked;
-      if (selectedTime != null && blocked.contains(selectedTime)) {
+      if (selectedTime != null && unavailableTimes.contains(selectedTime)) {
         selectedTime = null;
       }
     } catch (_) {
@@ -204,7 +228,6 @@ class AgendamentoViewModel extends ChangeNotifier {
     }
   }
 
-  // ── Ações ─────────────────────────────────────────────────────────────────
   void previousMonth() {
     final now = DateTime.now();
     final anterior = DateTime(focusedMonth.year, focusedMonth.month - 1);
@@ -243,7 +266,6 @@ class AgendamentoViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Retorna uma mensagem de erro ou null em caso de sucesso.
   Future<String?> confirmar() async {
     if (selectedTime == null) return 'Selecione um horário.';
     if (selectedServices.isEmpty) return 'Selecione pelo menos um serviço.';
