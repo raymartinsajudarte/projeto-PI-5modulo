@@ -189,3 +189,111 @@ O sistema informa que ocorreu um erro e solicita que o usuário tente novamente.
 
 ### Diagrama do Caso de Uso - 05
 <img width="516" height="582" alt="image" src="https://github.com/user-attachments/assets/c0f4c46f-171d-4887-8f58-7be08cb633fc" />
+
+
+
+## UC06 — Cancelar Agendamento
+
+### Ator Principal:
+Usuário
+
+### Objetivo:
+Permitir que o usuário cancele um agendamento previamente realizado.
+
+### Pré-condições:
+- O usuário deve estar autenticado ao sistema e realizado um agendamento.
+
+### Pós-condições:
+- O agendamento é removido e marcado como cancelado no sistema.
+
+### Fluxo Principal:
+1) O usuário acessa a lista de agendamentos.
+2) O sistema exibe os agendamentos ativos.
+3) O usuário seleciona um agendamento.
+4) O usuário solicita o cancelamento.
+5) O sistema solicita confirmação.
+6) O usuário confirma o cancelamento.
+7) O sistema atualiza o status no banco de dados.
+
+### Fluxos Alternativos:
+- **A1 — Cancelamento Não Permitido:**
+O sistema informa que o prazo do cancelamento expirou.
+
+### Regras de Negócio:
+- RN03, RN05
+
+### Requisitos Relacionados:
+- RF07
+
+### Diagrama do Caso de Uso - 06
+<img width="599" height="610" alt="image" src="https://github.com/user-attachments/assets/064026bb-199e-40d8-a5b3-36a746258d0b" />
+
+
+
+## UC07 — Visualizar Agendamentos
+
+### Ator Principal:
+Usuário
+
+### Objetivo:
+Permitir que o usuário visualize seus agendamentos.
+
+### Pré-condições:
+- O usuário deve estar autenticado ao sistema.
+
+### Pós-condições:
+- Lista de agendamentos exibida.
+
+### Fluxo Principal:
+1) O usuário acessa a área de agendamentos.
+2) O sistema consulta o banco de dados.
+3) O sistema exibe os agendamentos.
+
+### Fluxos Alternativos:
+- **A1 — Nenhum Agendamento:**
+O sistema informa que não existem registros.
+
+### Regras de Negócio:
+- RN07
+
+### Requisitos Relacionados:
+- N/A
+
+### Diagrama do Caso de Uso - 07
+<img width="572" height="445" alt="image" src="https://github.com/user-attachments/assets/040932fe-b623-47d2-b651-6d0189ccd803" />
+
+
+
+## UC08 — Realizar Logout
+
+### Ator Principal:
+Usuário
+
+### Objetivo:
+Encerrar a sessão do usuário no sistema.
+
+### Pré-condições:
+- O usuário deve estar autenticado ao sistema.
+
+### Pós-condições:
+- Sessão encerrada com sucesso.
+
+### Fluxo Principal:
+1) O usuário seleciona a opção de logout.
+2) O sistema invalida a sessão do usuário.
+3) O sistema redireciona para a tela inicial/login.
+
+### Fluxos Alternativos:
+- N/A
+
+### Regras de Negócio:
+- N/A
+
+### Requisitos Relacionados:
+- RF06
+
+### Diagrama do Caso de Uso - 08
+<img width="400" height="319" alt="image" src="https://github.com/user-attachments/assets/7e0673d0-95a5-4086-a99f-d66288d494bf" />
+
+
+
