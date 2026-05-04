@@ -35,7 +35,7 @@ O sistema informa que há campos obrigatórios não preenchidos.
 - RF01
 
 ### Diagrama do Caso de Uso - 01
-![Diagrama](<img width="566" height="565" alt="image" src="https://github.com/user-attachments/assets/e388ef1a-c8e9-494d-8189-198978116ecd" />)
+<img width="566" height="565" alt="image" src="https://github.com/user-attachments/assets/e388ef1a-c8e9-494d-8189-198978116ecd" />
 
 
 
