@@ -297,3 +297,39 @@ Encerrar a sessão do usuário no sistema.
 
 
 
+
+## UC09 — Recuperar Senha
+
+### Ator Principal:
+Usuário
+
+### Objetivo:
+Permitir que o usuário recupere o acesso à sua conta.
+
+### Pré-condições:
+- Usuário possuir e-mail cadastrado.
+
+### Pós-condições:
+- Senha redefinida com sucesso.
+
+### Fluxo Principal:
+1) O usuário acessa a opção “esqueceu a senha?”.
+2) O usuário informa o e-mail.
+3) O sistema verifica se o e-mail existe.
+4) O sistema envia um link/token de recuperação.
+5) O usuário acessa o link.
+6) O usuário define uma nova senha.
+7) O sistema atualiza a senha no banco de dados.
+
+### Fluxos Alternativos:
+- A1 — E-mail não encontrado: O sistema informa que o e-mail não está cadastrado.
+- A2 — Token inválido/expirado: O sistema solicita nova solicitação.
+
+### Regras de Negócio:
+- RN06
+
+### Requisitos Relacionados:
+- RF05
+
+### Diagrama do Caso de Uso - 09
+<img width="570" height="673" alt="image" src="https://github.com/user-attachments/assets/0414a24f-70ba-4c35-933f-864abc8d12dd" />
