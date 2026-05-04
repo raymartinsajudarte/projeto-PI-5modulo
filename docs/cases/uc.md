@@ -72,7 +72,7 @@ O sistema informa que não existe nenhum cadastro referente ao login utilizado.
 - RF02
 
 ### Diagrama do Caso de Uso - 02
-![Diagrama](<img width="578" height="521" alt="image" src="https://github.com/user-attachments/assets/2366b605-6b23-4edb-b3b5-a83ddd9d5b4e" />)
+<img width="578" height="521" alt="image" src="https://github.com/user-attachments/assets/2366b605-6b23-4edb-b3b5-a83ddd9d5b4e" />
 
 
 
@@ -109,7 +109,7 @@ O sistema informa que os dados inseridos são inválidos e solicita correção.
 - RF03
 
 ### Diagrama do Caso de Uso - 03
-![Diagrama](<img width="441" height="610" alt="image" src="https://github.com/user-attachments/assets/0d107d23-b5dc-4e7a-a35d-3cb4fee36a8c" />)
+<img width="441" height="610" alt="image" src="https://github.com/user-attachments/assets/0d107d23-b5dc-4e7a-a35d-3cb4fee36a8c" />
 
 
 
@@ -148,7 +148,7 @@ O sistema informa que o horário já foi ocupado e solicita nova escolha.
 - RF04
 
 ### Diagrama do Caso de Uso - 04
-![Diagrama](<img width="682" height="597" alt="image" src="https://github.com/user-attachments/assets/00d1c5fd-d2c5-4a1a-aaf0-bfd193e9453e" />)
+<img width="682" height="597" alt="image" src="https://github.com/user-attachments/assets/00d1c5fd-d2c5-4a1a-aaf0-bfd193e9453e" />
 
 
 
@@ -188,4 +188,4 @@ O sistema informa que ocorreu um erro e solicita que o usuário tente novamente.
 - RF08
 
 ### Diagrama do Caso de Uso - 05
-![Diagrama](<img width="516" height="582" alt="image" src="https://github.com/user-attachments/assets/c0f4c46f-171d-4887-8f58-7be08cb633fc" />)
+<img width="516" height="582" alt="image" src="https://github.com/user-attachments/assets/c0f4c46f-171d-4887-8f58-7be08cb633fc" />
