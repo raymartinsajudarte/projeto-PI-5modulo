@@ -35,7 +35,7 @@ O sistema informa que há campos obrigatórios não preenchidos.
 - RF01
 
 ### Diagrama do Caso de Uso - 01
-![Diagrama](https://github.com/raymartinsajudarte/projeto-PI-5modulo/blob/main/docs/cases/diagrama/uc01.png)
+![Diagrama](<img width="566" height="565" alt="image" src="https://github.com/user-attachments/assets/e388ef1a-c8e9-494d-8189-198978116ecd" />)
 
 
 
@@ -72,7 +72,7 @@ O sistema informa que não existe nenhum cadastro referente ao login utilizado.
 - RF02
 
 ### Diagrama do Caso de Uso - 02
-![Diagrama](https://github.com/raymartinsajudarte/projeto-PI-5modulo/blob/main/docs/cases/diagrama/uc02.png)
+![Diagrama](<img width="578" height="521" alt="image" src="https://github.com/user-attachments/assets/2366b605-6b23-4edb-b3b5-a83ddd9d5b4e" />)
 
 
 
@@ -109,7 +109,7 @@ O sistema informa que os dados inseridos são inválidos e solicita correção.
 - RF03
 
 ### Diagrama do Caso de Uso - 03
-![Diagrama](https://github.com/raymartinsajudarte/projeto-PI-5modulo/blob/main/docs/cases/diagrama/uc03.png)
+![Diagrama](<img width="441" height="610" alt="image" src="https://github.com/user-attachments/assets/0d107d23-b5dc-4e7a-a35d-3cb4fee36a8c" />)
 
 
 
@@ -148,7 +148,7 @@ O sistema informa que o horário já foi ocupado e solicita nova escolha.
 - RF04
 
 ### Diagrama do Caso de Uso - 04
-![Diagrama](https://github.com/raymartinsajudarte/projeto-PI-5modulo/blob/main/docs/cases/diagrama/uc04.png)
+![Diagrama](<img width="682" height="597" alt="image" src="https://github.com/user-attachments/assets/00d1c5fd-d2c5-4a1a-aaf0-bfd193e9453e" />)
 
 
 
@@ -188,4 +188,4 @@ O sistema informa que ocorreu um erro e solicita que o usuário tente novamente.
 - RF08
 
 ### Diagrama do Caso de Uso - 05
-![Diagrama](https://github.com/raymartinsajudarte/projeto-PI-5modulo/blob/main/docs/cases/diagrama/uc05.png)
+![Diagrama](<img width="516" height="582" alt="image" src="https://github.com/user-attachments/assets/c0f4c46f-171d-4887-8f58-7be08cb633fc" />)
