@@ -230,41 +230,7 @@ O sistema informa que o prazo do cancelamento expirou.
 
 
 
-## UC07 — Visualizar Agendamentos
-
-### Ator Principal:
-Usuário
-
-### Objetivo:
-Permitir que o usuário visualize seus agendamentos.
-
-### Pré-condições:
-- O usuário deve estar autenticado ao sistema.
-
-### Pós-condições:
-- Lista de agendamentos exibida.
-
-### Fluxo Principal:
-1) O usuário acessa a área de agendamentos.
-2) O sistema consulta o banco de dados.
-3) O sistema exibe os agendamentos.
-
-### Fluxos Alternativos:
-- **A1 — Nenhum Agendamento:**
-O sistema informa que não existem registros.
-
-### Regras de Negócio:
-- RN07
-
-### Requisitos Relacionados:
-- N/A
-
-### Diagrama do Caso de Uso - 07
-<img width="572" height="445" alt="image" src="https://github.com/user-attachments/assets/040932fe-b623-47d2-b651-6d0189ccd803" />
-
-
-
-## UC08 — Realizar Logout
+## UC07 — Realizar Logout
 
 ### Ator Principal:
 Usuário
@@ -292,13 +258,13 @@ Encerrar a sessão do usuário no sistema.
 ### Requisitos Relacionados:
 - RF06
 
-### Diagrama do Caso de Uso - 08
+### Diagrama do Caso de Uso - 07
 <img width="400" height="319" alt="image" src="https://github.com/user-attachments/assets/7e0673d0-95a5-4086-a99f-d66288d494bf" />
 
 
 
 
-## UC09 — Recuperar Senha
+## UC08 — Recuperar Senha
 
 ### Ator Principal:
 Usuário
@@ -331,5 +297,5 @@ Permitir que o usuário recupere o acesso à sua conta.
 ### Requisitos Relacionados:
 - RF05
 
-### Diagrama do Caso de Uso - 09
+### Diagrama do Caso de Uso - 08
 <img width="570" height="673" alt="image" src="https://github.com/user-attachments/assets/0414a24f-70ba-4c35-933f-864abc8d12dd" />
