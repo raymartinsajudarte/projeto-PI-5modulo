@@ -66,7 +66,7 @@ O sistema exibe uma mensagem de erro nos caracteres do login ao usuário.
 O sistema informa que não existe nenhum cadastro referente ao login utilizado.
 
 ### Regras de Negócio:
-- RN01
+- N/A
 
 ### Requisitos Relacionados:
 - RF02
@@ -103,7 +103,7 @@ Permitir que o usuário altere informações do seu perfil dentro da plataforma.
 O sistema informa que os dados inseridos são inválidos e solicita correção.
 
 ### Regras de Negócio:
-- RN02
+- N/A
 
 ### Requisitos Relacionados:
 - RF03
@@ -220,7 +220,7 @@ Permitir que o usuário cancele um agendamento previamente realizado.
 O sistema informa que o prazo do cancelamento expirou.
 
 ### Regras de Negócio:
-- RN03, RN05
+- RN05
 
 ### Requisitos Relacionados:
 - RF07
@@ -249,9 +249,6 @@ Encerrar a sessão do usuário no sistema.
 2) O sistema invalida a sessão do usuário.
 3) O sistema redireciona para a tela inicial/login.
 
-### Fluxos Alternativos:
-- N/A
-
 ### Regras de Negócio:
 - N/A
 
@@ -260,7 +257,6 @@ Encerrar a sessão do usuário no sistema.
 
 ### Diagrama do Caso de Uso - 07
 <img width="400" height="319" alt="image" src="https://github.com/user-attachments/assets/7e0673d0-95a5-4086-a99f-d66288d494bf" />
-
 
 
 
@@ -292,10 +288,10 @@ Permitir que o usuário recupere o acesso à sua conta.
 - A2 — Token inválido/expirado: O sistema solicita nova solicitação.
 
 ### Regras de Negócio:
-- RN06
+- N/A
 
 ### Requisitos Relacionados:
-- RF05
+- N/A
 
 ### Diagrama do Caso de Uso - 08
 <img width="570" height="673" alt="image" src="https://github.com/user-attachments/assets/0414a24f-70ba-4c35-933f-864abc8d12dd" />
