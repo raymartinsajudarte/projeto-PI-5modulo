@@ -100,7 +100,19 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
 
-                const SizedBox(height: 24),
+                SizedBox(height: 8),
+
+                AuthTextLink(
+                  prefixText: 'Esqueceu sua senha? ',
+                  actionText: 'Clique aqui.',
+                  onTap: () => Navigator.pushReplacementNamed(
+                    context,
+                    '/forgot-password',
+                  ),
+                  textSize: 12,
+                ),
+
+                const SizedBox(height: 18),
 
                 vm.isLoading
                     ? const CircularProgressIndicator()

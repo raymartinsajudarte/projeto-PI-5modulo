@@ -30,6 +30,18 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
+  bool _passwordsChar(){
+    final passRegex = RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$');
+    if (!passRegex.hasMatch(passwordController.text)) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('A senha deve conter no mínimo 6 caracteres, incluindo letras e números!')));
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   bool _confirmPassword() {
     if (passwordController.text != confirmPasswordController.text) {
       ScaffoldMessenger.of(
