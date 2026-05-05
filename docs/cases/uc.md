@@ -72,7 +72,7 @@ O sistema informa que não existe nenhum cadastro referente ao login utilizado.
 - RF02
 
 ### Diagrama do Caso de Uso - 02
-<img width="578" height="521" alt="image" src="https://github.com/user-attachments/assets/2366b605-6b23-4edb-b3b5-a83ddd9d5b4e" />
+<img width="493" height="427" alt="image" src="https://github.com/user-attachments/assets/98f296d4-3b3b-4b8a-8379-f3e9714a0984" />
 
 
 
