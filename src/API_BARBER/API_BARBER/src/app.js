@@ -4,8 +4,9 @@ const authRoutes = require('./routes/auth_routes');
 const servicesRoutes = require('./routes/services_routes');
 const paymentsRoutes = require('./routes/payments_routes');
 const appointmensRoutes = require('./routes/appointments_routes');
+const iaRoutes = require('./routes/ai_routes')
 
-const cors = require('cors')
+const cors = require('cors');
 const app = express();
 
 app.use(cors());
@@ -16,5 +17,6 @@ app.use('/services',servicesRoutes);
 app.use('/payments',paymentsRoutes);
 app.use('/uploads', express.static('uploads'));
 app.use('/appointments',appointmensRoutes);
+app.use('/ia',iaRoutes);
 
 module.exports = app;

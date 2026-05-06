@@ -212,13 +212,23 @@ Não precisa enviar nada
 
 ---
 
+## Rota de chat com a I.A 
+POST: http://localhost:3000/ia/chat
+
+## Detalhes
+    A ideia é ser uma solicitação por exemplo: Quero cortar o cabelo semana que vem no periodo da manhã, a partir dai a I.A vai preencher 3 parametros para montarmos o botão para direcionar para o agendamento já com as informações preenchidas. 
+    servico_escolhido - servicos escolhidos
+    dia_escolhido - dia escolhido
+    horario_escolhido - horario do agendamento
+    pagamento_escolhido - forma de pagamento
+    atendimento_finalizado - para controle do atendimento
+## Envio
+    "mensagem":"solicitação de serviço do usuário"
 
 
-### proximas rotas
 
-* editar perfil (reenviar todos os campos independente de serem alterados)
+### Proxima rota, roda de exibir histórico. 
 
-* historico (criar uma view bem estruturada com informações essenciais)
 
 
 
