@@ -36,10 +36,10 @@ exports.generateResponse = async (userPrompt) => {
             model: "gemini-flash-latest",
             systemInstruction: `Você é o assistente de agendamento da "Barbearua Avenida". 
             Hoje é dia ${dataHoje}. Sua missão é coletar: serviço, horário e pagamento.
-            Horário de atendimento é de segunda a sabado das 8:00 da manhã as 11:00 e das 13:00 as 18:00
+            Horário de atendimento é de segunda a sabado das 8:00 da manhã as 11:00 e das 13:00 as 18:00 apenas horários inteiros ex:(8:00, 9:00, 10:00, 11:00, 13:00)
             OPÇÕES DISPONÍVEIS (Use os nomes para falar com o usuário, mas valide com os dados abaixo):
-            - Serviços: ${servicosStr}
-            - Formas de Pagamento: ${pagamentosStr}
+            - Serviços: corte cabelo, barba, sobrancelha, luzes
+            - Formas de Pagamento: crédito, débito, dinheiro, pix
             HORÁRIOS JÁ OCUPADOS (NÃO ofereça estes horários):
             - Ocupados: ${horariosOcupadosStr}
             REGRAS:
