@@ -212,13 +212,30 @@ Não precisa enviar nada
 
 ---
 
+## Rota de chat com a I.A 
+POST: http://localhost:3000/ia/chat
+
+## Detalhes
+    A ideia é ser uma solicitação por exemplo: Quero cortar o cabelo semana que vem no periodo da manhã, a partir dai a I.A vai preencher 4 parametros para montarmos o botão para direcionar para o resumo do agendamento já preenchidos
+    "servico_escolhido":"corte cabelo, luzes",
+    "dia_escolhido":"2026-05-09",
+    "horario_escolhido":"09:00",
+    "pagamento_escolhido":"crédito",
+## Envio
+{
+    "mensagem":"Olá, gostaria de cortar o cabelo e fazer luzes no sabado as 9:00, pagamento via crédito"
+}
+## Resposta I.A
+{
+    "mensagem":"Perfeito! Seu agendamento para corte de cabelo e luzes está confirmado para sábado, dia 09/05/2026, às 09:00. O pagamento será realizado via crédito. A Barbearua Avenida agradece!","servico_escolhido":"corte cabelo, luzes","dia_escolhido":"2026-05-09","horario_escolhido":"09:00","pagamento_escolhido":"crédito","atendimento_finalizado":true
+}
 
 
-### proximas rotas
+### Proxima rota, roda de exibir histórico. 
+### Melhorar a rota de ocupados - olhar sempre maior ou igual o dia de hoje, não faz sentido ver os ocupados que já ficaram pra trás.
 
-* editar perfil (reenviar todos os campos independente de serem alterados)
 
-* historico (criar uma view bem estruturada com informações essenciais)
+
 
 
 
