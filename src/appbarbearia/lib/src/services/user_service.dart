@@ -10,11 +10,13 @@ class UserService {
     String? nome,
     String? email,
     String? celular,
+    String? senha,
   }) async {
     final body = <String, dynamic>{};
     if (nome != null && nome.isNotEmpty) body['nome'] = nome;
     if (email != null && email.isNotEmpty) body['email'] = email;
     if (celular != null && celular.isNotEmpty) body['celular'] = celular;
+    if (senha != null && senha.isNotEmpty) body['senha'] = senha;
 
     final response = await http.put(
       Uri.parse('$_baseUrl/users/$id'),
@@ -31,6 +33,7 @@ class UserService {
     throw Exception(data['message'] ?? 'Erro ao atualizar usuário.');
   }
 
+  /// Faz upload da foto — compatível com Web, Android e iOS.
   Future<String> uploadFoto({
     required int id,
     required List<int> bytes,
@@ -47,7 +50,7 @@ class UserService {
         'foto',
         bytes,
         filename: fileName,
-        contentType: MediaType('image', mimeType), 
+        contentType: MediaType('image', mimeType),
       ),
     );
 

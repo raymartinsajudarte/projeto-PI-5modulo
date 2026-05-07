@@ -3,11 +3,15 @@ import 'package:appbarbearia/src/pages/login_page.dart';
 import 'package:appbarbearia/src/pages/perfil_page.dart';
 import 'package:appbarbearia/src/pages/register_page.dart';
 import 'package:appbarbearia/src/pages/edit_user_page.dart';
+import 'package:appbarbearia/src/pages/forgot_password_page.dart';
+import 'package:appbarbearia/src/pages/change_password_page.dart';
 import 'package:appbarbearia/src/viewmodels/agendamento_view_model.dart';
+import 'package:appbarbearia/src/viewmodels/forgot_password_view_model.dart';
 import 'package:appbarbearia/src/viewmodels/login_view_model.dart';
 import 'package:appbarbearia/src/viewmodels/perfil_view_model.dart';
 import 'package:appbarbearia/src/viewmodels/register_view_model.dart';
 import 'package:appbarbearia/src/viewmodels/edit_user_view_model.dart';
+import 'package:appbarbearia/src/viewmodels/change_password_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'pages/welcome_page.dart';
@@ -24,6 +28,9 @@ class AppBarbearia extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => PerfilViewModel()),
         ChangeNotifierProvider(create: (_) => AgendamentoViewModel()),
         ChangeNotifierProvider(create: (_) => EditUserViewModel()),
+        ChangeNotifierProvider(create: (_) => ForgotPasswordViewModel()),
+        ChangeNotifierProvider(create: (_) => ChangePasswordViewModel()),
+
 
       ],
       child: MaterialApp(
@@ -37,6 +44,8 @@ class AppBarbearia extends StatelessWidget {
           '/perfil': (context) => PerfilPage(),
           '/edit-user': (context) => EditUserPage(),
           '/agendamento': (context) => AgendamentoPage(),
+          '/forgot-password': (context) => ForgotPasswordPage(),
+          '/alterar-senha': (context) => ChangePasswordPage(),
         },
       ),
     );

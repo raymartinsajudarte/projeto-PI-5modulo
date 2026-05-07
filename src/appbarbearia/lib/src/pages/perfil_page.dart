@@ -75,7 +75,7 @@ class _PerfilPageState extends State<PerfilPage> {
               ProfileLinkButton(
                 icon: Icons.password,
                 title: 'Alterar Senha',
-                onTap: () {},
+                onTap: () => Navigator.pushNamed(context, '/alterar-senha'),
               ),
               ProfileLinkButton(
                 icon: Icons.calendar_today,
