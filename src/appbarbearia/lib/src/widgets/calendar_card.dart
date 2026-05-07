@@ -25,8 +25,14 @@ class CalendarCard extends StatelessWidget {
 
     final DateTime firstDayOfMonth = DateTime(year, month, 1);
     final int daysInMonth = DateTime(year, month + 1, 0).day;
-
     final int startWeekday = firstDayOfMonth.weekday % 7;
+
+    // Hoje sem horário para comparação de dias anteriores
+    final DateTime today = DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+    );
 
     List<Widget> dayWidgets = [];
 
@@ -43,28 +49,35 @@ class CalendarCard extends StatelessWidget {
           currentDate.day == selectedDate.day;
 
       final bool isSunday = currentDate.weekday == DateTime.sunday;
+      final bool isPast = currentDate.isBefore(today);
+      final bool isDisabled = isSunday || isPast;
 
       dayWidgets.add(
         GestureDetector(
-          onTap: () => onDateSelected(currentDate),
+          onTap: isDisabled ? null : () => onDateSelected(currentDate),
           child: Container(
             width: 34,
             height: 34,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: isSelected ? Color(0xFF6CAB5B) : Colors.transparent,
+              color: isSelected && !isDisabled
+                  ? const Color(0xFF6CAB5B)
+                  : Colors.transparent,
               shape: BoxShape.circle,
             ),
             child: Text(
               '$day',
               style: TextStyle(
                 fontSize: 13,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                color: isSelected
-                    ? Colors.white
-                    : isSunday
-                    ? Colors.red
-                    : Color(0xFF2B2B2B),
+                fontWeight:
+                    isSelected && !isDisabled ? FontWeight.bold : FontWeight.w500,
+                color: isDisabled
+                    ? Colors.grey.shade400
+                    : isSelected
+                        ? Colors.white
+                        : isSunday
+                            ? Colors.red
+                            : const Color(0xFF2B2B2B),
               ),
             ),
           ),
@@ -74,11 +87,11 @@ class CalendarCard extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Color(0xFFF3F3F3),
+        color: const Color(0xFFF3F3F3),
         borderRadius: BorderRadius.circular(14),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Color(0x22000000),
             blurRadius: 4,
@@ -89,7 +102,7 @@ class CalendarCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          const Row(
             children: [
               Icon(Icons.calendar_month, size: 18, color: Color(0xFF1F1F1F)),
               SizedBox(width: 8),
@@ -103,25 +116,26 @@ class CalendarCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 14),
+          const SizedBox(height: 14),
 
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
             decoration: BoxDecoration(
-              color: Color(0xFFD9D9D9),
+              color: const Color(0xFFD9D9D9),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
               children: [
                 GestureDetector(
                   onTap: onPreviousMonth,
-                  child: Icon(Icons.chevron_left, color: Color(0xFF2B2B2B)),
+                  child: const Icon(Icons.chevron_left,
+                      color: Color(0xFF2B2B2B)),
                 ),
                 Expanded(
                   child: Center(
                     child: Text(
                       _monthYearText(focusedMonth),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
                         color: Color(0xFF2B2B2B),
@@ -131,7 +145,8 @@ class CalendarCard extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: onNextMonth,
-                  child: Icon(Icons.chevron_right, color: Color(0xFF2B2B2B)),
+                  child: const Icon(Icons.chevron_right,
+                      color: Color(0xFF2B2B2B)),
                 ),
               ],
             ),
@@ -144,39 +159,36 @@ class CalendarCard extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Color(0xFF58AF45), width: 1.2),
+              border: Border.all(color: const Color(0xFF58AF45), width: 1.2),
             ),
             child: Column(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: weekDays.asMap().entries.map((entry) {
-                    final index = entry.key;
-                    final day = entry.value;
-
-                    final bool isSunday = index == 0;
-
+                    final isSunday = entry.key == 0;
                     return SizedBox(
                       width: 28,
                       child: Center(
                         child: Text(
-                          day,
+                          entry.value,
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
-                            color: isSunday ? Colors.red : Color(0xFF3A3A3A),
+                            color: isSunday
+                                ? Colors.red
+                                : const Color(0xFF3A3A3A),
                           ),
                         ),
                       ),
                     );
                   }).toList(),
                 ),
-                SizedBox(height: 10),
-
+                const SizedBox(height: 10),
                 GridView.count(
                   crossAxisCount: 7,
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   mainAxisSpacing: 8,
                   crossAxisSpacing: 4,
                   children: dayWidgets,
@@ -192,20 +204,10 @@ class CalendarCard extends StatelessWidget {
   static String _monthYearText(DateTime date) {
     const months = [
       '',
-      'Janeiro',
-      'Fevereiro',
-      'Março',
-      'Abril',
-      'Maio',
-      'Junho',
-      'Julho',
-      'Agosto',
-      'Setembro',
-      'Outubro',
-      'Novembro',
-      'Dezembro',
+      'Janeiro', 'Fevereiro', 'Março', 'Abril',
+      'Maio', 'Junho', 'Julho', 'Agosto',
+      'Setembro', 'Outubro', 'Novembro', 'Dezembro',
     ];
-
     return '${months[date.month]} ${date.year}';
   }
 }
