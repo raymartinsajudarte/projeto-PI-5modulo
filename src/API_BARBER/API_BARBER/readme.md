@@ -210,6 +210,19 @@ Não precisa enviar nada
     "hora":"10:00:00"
 }
 
+## Histórico dos agendamentos
+Rota para consultar todos os agendamentos
+
+## Rota de retorno dos agendamentos
+GET: http://localhost:3000/appointments/history
+## Envio:
+Não precisa enviar nada
+## Formato do retorno:
+[
+    {"id_agendamento":1,"nome":"Júlio Braido","foto":"/uploads/user_2_1775609023234.png","descricao servicos":"corte cabelo | barba","valor servicos":"R$ 40,00 | R$ 25,00","valor total":"65.00","dia":"2026-04-20T03:00:00.000Z","hora":"14:00:00","forma_pagamento":"crédito","status":"confirmado"},
+    {"id_agendamento":2,"nome":"João Victor Marcolino","foto":"/uploads/user_4_1775609345386.png","descricao servicos":"corte cabelo","valor servicos":"R$ 40,00","valor total":"40.00","dia":"2026-04-22T03:00:00.000Z","hora":"16:00:00","forma_pagamento":"débito","status":"confirmado"},
+    {"id_agendamento":4,"nome":"Júlio Braido","foto":"/uploads/user_2_1775609023234.png","descricao servicos":"corte cabelo | barba | sobrancelha","valor servicos":"R$ 40,00 | R$ 25,00 | R$ 10,00","valor total":"75.00","dia":"2026-04-23T03:00:00.000Z","hora":"10:00:00","forma_pagamento":"dinheiro","status":"confirmado"}
+]
 ---
 
 ## Rota de chat com a I.A 

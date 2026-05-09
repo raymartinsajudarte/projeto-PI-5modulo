@@ -5,5 +5,6 @@ const router = express.Router();
 
 router.post('/', appointmenstsControllers.create);
 router.get('/', appointmenstsControllers.list_shedule);
+router.get('/history', appointmenstsControllers.list_history)
 
 module.exports = router;
