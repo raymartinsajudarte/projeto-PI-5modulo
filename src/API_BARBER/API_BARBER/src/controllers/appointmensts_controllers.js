@@ -63,3 +63,16 @@ exports.list_shedule = async (req, res) => {
         });
     };
 };
+
+exports.list_history = async (req, res) => {
+    try {
+        const [rows] = await pool.query(
+            `select * from tb_relat_agendamentos;`
+        );
+        res.status(200).json(rows)
+    } catch (error) {
+        res.status(500).json({
+            error: "Erro ao buscar historico dos agendamentos"
+        })
+    }
+}
