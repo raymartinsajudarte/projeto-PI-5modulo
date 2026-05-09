@@ -4,6 +4,7 @@ class UserModel {
   final String nomeUsuario;
   final String email;
   final String? foto;
+  final String? celular;
   final String perfil;
 
   UserModel({
@@ -12,6 +13,7 @@ class UserModel {
     required this.nomeUsuario,
     required this.email,
     this.foto,
+    this.celular,
     required this.perfil,
   });
 
@@ -22,6 +24,7 @@ class UserModel {
       nomeUsuario: json['nome_usuario'],
       email: json['email'],
       foto: json['foto'],
+      celular: json['celular'],
       perfil: json['perfil'],
     );
   }
@@ -33,6 +36,7 @@ class UserModel {
       'nome_usuario': nomeUsuario,
       'email': email,
       'foto': foto,
+      'celular': celular,
       'perfil': perfil,
     };
   }

@@ -11,7 +11,7 @@ class AuthService {
     required String username,
     required String password,
   }) async {
-    final url = Uri.parse('$baseUrl/login');
+    final url = Uri.parse('$baseUrl/auth/login');
 
     final response = await http.post(
       url,

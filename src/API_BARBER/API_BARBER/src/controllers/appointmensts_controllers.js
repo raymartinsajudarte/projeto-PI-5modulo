@@ -1,4 +1,4 @@
-const pool = require('../config/database');
+    const pool = require('../config/database');
 
 exports.create = async (req, res) => {
     let connection;

@@ -35,7 +35,7 @@ O sistema informa que há campos obrigatórios não preenchidos.
 - RF01
 
 ### Diagrama do Caso de Uso - 01
-![Diagrama](https://github.com/raymartinsajudarte/projeto-PI-5modulo/blob/main/docs/cases/diagrama/uc01.png)
+<img width="566" height="565" alt="image" src="https://github.com/user-attachments/assets/e388ef1a-c8e9-494d-8189-198978116ecd" />
 
 
 
@@ -66,13 +66,13 @@ O sistema exibe uma mensagem de erro nos caracteres do login ao usuário.
 O sistema informa que não existe nenhum cadastro referente ao login utilizado.
 
 ### Regras de Negócio:
-- RN01
+- N/A
 
 ### Requisitos Relacionados:
 - RF02
 
 ### Diagrama do Caso de Uso - 02
-![Diagrama](https://github.com/raymartinsajudarte/projeto-PI-5modulo/blob/main/docs/cases/diagrama/uc02.png)
+<img width="493" height="427" alt="image" src="https://github.com/user-attachments/assets/98f296d4-3b3b-4b8a-8379-f3e9714a0984" />
 
 
 
@@ -103,13 +103,13 @@ Permitir que o usuário altere informações do seu perfil dentro da plataforma.
 O sistema informa que os dados inseridos são inválidos e solicita correção.
 
 ### Regras de Negócio:
-- RN02
+- N/A
 
 ### Requisitos Relacionados:
 - RF03
 
 ### Diagrama do Caso de Uso - 03
-![Diagrama](https://github.com/raymartinsajudarte/projeto-PI-5modulo/blob/main/docs/cases/diagrama/uc03.png)
+<img width="441" height="610" alt="image" src="https://github.com/user-attachments/assets/0d107d23-b5dc-4e7a-a35d-3cb4fee36a8c" />
 
 
 
@@ -148,7 +148,7 @@ O sistema informa que o horário já foi ocupado e solicita nova escolha.
 - RF04
 
 ### Diagrama do Caso de Uso - 04
-![Diagrama](https://github.com/raymartinsajudarte/projeto-PI-5modulo/blob/main/docs/cases/diagrama/uc04.png)
+<img width="682" height="597" alt="image" src="https://github.com/user-attachments/assets/00d1c5fd-d2c5-4a1a-aaf0-bfd193e9453e" />
 
 
 
@@ -188,4 +188,110 @@ O sistema informa que ocorreu um erro e solicita que o usuário tente novamente.
 - RF08
 
 ### Diagrama do Caso de Uso - 05
-![Diagrama](https://github.com/raymartinsajudarte/projeto-PI-5modulo/blob/main/docs/cases/diagrama/uc05.png)
+<img width="516" height="582" alt="image" src="https://github.com/user-attachments/assets/c0f4c46f-171d-4887-8f58-7be08cb633fc" />
+
+
+
+## UC06 — Cancelar Agendamento
+
+### Ator Principal:
+Usuário
+
+### Objetivo:
+Permitir que o usuário cancele um agendamento previamente realizado.
+
+### Pré-condições:
+- O usuário deve estar autenticado ao sistema e realizado um agendamento.
+
+### Pós-condições:
+- O agendamento é removido e marcado como cancelado no sistema.
+
+### Fluxo Principal:
+1) O usuário acessa a lista de agendamentos.
+2) O sistema exibe os agendamentos ativos.
+3) O usuário seleciona um agendamento.
+4) O usuário solicita o cancelamento.
+5) O sistema solicita confirmação.
+6) O usuário confirma o cancelamento.
+7) O sistema atualiza o status no banco de dados.
+
+### Fluxos Alternativos:
+- **A1 — Cancelamento Não Permitido:**
+O sistema informa que o prazo do cancelamento expirou.
+
+### Regras de Negócio:
+- RN05
+
+### Requisitos Relacionados:
+- RF07
+
+### Diagrama do Caso de Uso - 06
+<img width="599" height="610" alt="image" src="https://github.com/user-attachments/assets/064026bb-199e-40d8-a5b3-36a746258d0b" />
+
+
+
+## UC07 — Realizar Logout
+
+### Ator Principal:
+Usuário
+
+### Objetivo:
+Encerrar a sessão do usuário no sistema.
+
+### Pré-condições:
+- O usuário deve estar autenticado ao sistema.
+
+### Pós-condições:
+- Sessão encerrada com sucesso.
+
+### Fluxo Principal:
+1) O usuário seleciona a opção de logout.
+2) O sistema invalida a sessão do usuário.
+3) O sistema redireciona para a tela inicial/login.
+
+### Regras de Negócio:
+- N/A
+
+### Requisitos Relacionados:
+- RF06
+
+### Diagrama do Caso de Uso - 07
+<img width="400" height="319" alt="image" src="https://github.com/user-attachments/assets/7e0673d0-95a5-4086-a99f-d66288d494bf" />
+
+
+
+## UC08 — Recuperar Senha
+
+### Ator Principal:
+Usuário
+
+### Objetivo:
+Permitir que o usuário recupere o acesso à sua conta.
+
+### Pré-condições:
+- Usuário possuir e-mail cadastrado.
+
+### Pós-condições:
+- Senha redefinida com sucesso.
+
+### Fluxo Principal:
+1) O usuário acessa a opção “esqueceu a senha?”.
+2) O usuário informa o e-mail.
+3) O sistema verifica se o e-mail existe.
+4) O sistema envia um link/token de recuperação.
+5) O usuário acessa o link.
+6) O usuário define uma nova senha.
+7) O sistema atualiza a senha no banco de dados.
+
+### Fluxos Alternativos:
+- A1 — E-mail não encontrado: O sistema informa que o e-mail não está cadastrado.
+- A2 — Token inválido/expirado: O sistema solicita nova solicitação.
+
+### Regras de Negócio:
+- N/A
+
+### Requisitos Relacionados:
+- N/A
+
+### Diagrama do Caso de Uso - 08
+<img width="570" height="673" alt="image" src="https://github.com/user-attachments/assets/0414a24f-70ba-4c35-933f-864abc8d12dd" />
