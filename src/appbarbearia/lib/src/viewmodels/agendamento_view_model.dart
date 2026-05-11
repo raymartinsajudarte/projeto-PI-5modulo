@@ -4,6 +4,7 @@ import '../services/services_service.dart';
 import '../services/payment_service.dart';
 import '../services/appointment_service.dart';
 import '../models/payment_model.dart';
+import '../viewmodels/ia_view_model.dart';
 
 const _allowedServiceIds = [1, 2, 3, 4];
 
@@ -79,12 +80,7 @@ class AgendamentoViewModel extends ChangeNotifier {
 
   final List<String> morningTimes = ['08:00', '09:00', '10:00', '11:00'];
   final List<String> afternoonTimes = [
-    '13:00',
-    '14:00',
-    '15:00',
-    '16:00',
-    '17:00',
-    '18:00',
+    '13:00', '14:00', '15:00', '16:00', '17:00', '18:00',
   ];
   List<String> unavailableTimes = [];
   String? selectedTime = '09:00';
@@ -99,7 +95,6 @@ class AgendamentoViewModel extends ChangeNotifier {
 
   int? selectedPaymentId;
   String selectedPaymentNome = '';
-
   int? loggedUserId;
 
   bool get isLoading => loadingServices || loadingPayments;
@@ -112,19 +107,8 @@ class AgendamentoViewModel extends ChangeNotifier {
 
   String get formattedDate {
     const months = [
-      '',
-      'Janeiro',
-      'Fevereiro',
-      'Março',
-      'Abril',
-      'Maio',
-      'Junho',
-      'Julho',
-      'Agosto',
-      'Setembro',
-      'Outubro',
-      'Novembro',
-      'Dezembro',
+      '', 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+      'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',
     ];
     return '${selectedDate.day} de ${months[selectedDate.month]}, ${selectedDate.year}';
   }
@@ -147,24 +131,22 @@ class AgendamentoViewModel extends ChangeNotifier {
   Future<void> _fetchServices() async {
     try {
       final all = await _servicesService.getServices();
-      final filtered =
-          all.where((s) => _allowedServiceIds.contains(s.id)).toList()..sort(
-            (a, b) =>
-                _allowedServiceIds.indexOf(a.id) -
-                _allowedServiceIds.indexOf(b.id),
-          );
+      final filtered = all
+          .where((s) => _allowedServiceIds.contains(s.id))
+          .toList()
+        ..sort((a, b) =>
+            _allowedServiceIds.indexOf(a.id) -
+            _allowedServiceIds.indexOf(b.id));
 
       services = filtered
-          .map(
-            (s) => {
-              'id': s.id,
-              'title': capitalizeFirst(s.nome),
-              'subtitle': subtitleForService(s.id),
-              'price': s.valor,
-              'icon': iconForService(s.id),
-              'selected': s.id == 1,
-            },
-          )
+          .map((s) => {
+                'id': s.id,
+                'title': capitalizeFirst(s.nome),
+                'subtitle': subtitleForService(s.id),
+                'price': s.valor,
+                'icon': iconForService(s.id),
+                'selected': s.id == 1,
+              })
           .toList();
     } catch (_) {
     } finally {
@@ -195,8 +177,9 @@ class AgendamentoViewModel extends ChangeNotifier {
       final blocked = await _appointmentService.getUnavailableTimes(dia);
 
       final now = DateTime.now();
-      final isToday =
-          dia.year == now.year && dia.month == now.month && dia.day == now.day;
+      final isToday = dia.year == now.year &&
+          dia.month == now.month &&
+          dia.day == now.day;
 
       if (isToday) {
         final allTimes = [...morningTimes, ...afternoonTimes];
@@ -205,12 +188,7 @@ class AgendamentoViewModel extends ChangeNotifier {
           final timeHour = int.parse(parts[0]);
           final timeMinute = int.parse(parts[1]);
           final horario = DateTime(
-            now.year,
-            now.month,
-            now.day,
-            timeHour,
-            timeMinute,
-          );
+              now.year, now.month, now.day, timeHour, timeMinute);
           if (horario.isBefore(now) && !blocked.contains(time)) {
             blocked.add(time);
           }
@@ -228,6 +206,57 @@ class AgendamentoViewModel extends ChangeNotifier {
     }
   }
 
+  // ── Preenche dados vindos da IA ───────────────────────────────────────────
+  void preencherDadosIA(DadosAgendamentoIA dados) {
+    // 1. Data
+    try {
+      final partes = dados.diaEscolhido.split('-');
+      if (partes.length == 3) {
+        final data = DateTime(
+          int.parse(partes[0]),
+          int.parse(partes[1]),
+          int.parse(partes[2]),
+        );
+        selectedDate = data;
+        focusedMonth = DateTime(data.year, data.month);
+      }
+    } catch (_) {}
+
+    // 2. Horário
+    selectedTime = dados.horarioEscolhido;
+
+    // 3. Serviços — a IA retorna nomes separados por vírgula
+    final nomesServicos = dados.servicoEscolhido
+        .split(',')
+        .map((s) => s.trim().toLowerCase())
+        .toList();
+
+    for (var i = 0; i < services.length; i++) {
+      final nomeService =
+          (services[i]['title'] as String).toLowerCase();
+      services[i]['selected'] = nomesServicos.any((n) =>
+          nomeService.contains(n) || n.contains(nomeService));
+    }
+
+    // 4. Pagamento — busca pelo nome
+    final nomePagamento = dados.pagamentoEscolhido.toLowerCase().trim();
+    final payment = paymentMethods.firstWhere(
+      (p) => p.nome.toLowerCase().contains(nomePagamento) ||
+          nomePagamento.contains(p.nome.toLowerCase()),
+      orElse: () => paymentMethods.isNotEmpty
+          ? paymentMethods.first
+          : PaymentModel(id: 0, nome: ''),
+    );
+    selectedPaymentId = payment.id;
+    selectedPaymentNome = payment.nome;
+
+    notifyListeners();
+
+    // Recarrega horários bloqueados da nova data
+    fetchUnavailableTimes(selectedDate);
+  }
+
+  // ── Ações ─────────────────────────────────────────────────────────────────
   void previousMonth() {
     final now = DateTime.now();
     final anterior = DateTime(focusedMonth.year, focusedMonth.month - 1);
@@ -284,11 +313,14 @@ class AgendamentoViewModel extends ChangeNotifier {
         dia: selectedDate,
         hora: '${selectedTime!}:00',
         servicos: selectedServices
-            .map((s) => {'id_servico': s['id'], 'valor_unitario': s['price']})
+            .map((s) => {
+                  'id_servico': s['id'],
+                  'valor_unitario': s['price'],
+                })
             .toList(),
       );
       await fetchUnavailableTimes(selectedDate);
-      return null; // sucesso
+      return null;
     } catch (e) {
       return e.toString().replaceFirst('Exception: ', '');
     } finally {
