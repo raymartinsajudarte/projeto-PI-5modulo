@@ -21,8 +21,16 @@ class BottomNav extends StatelessWidget {
             onTap: () =>
                 Navigator.pushReplacementNamed(context, '/agendamento'),
           ),
-          _NavItem(icon: Icons.person, label: "Profile", onTap: () => Navigator.pushReplacementNamed(context, '/perfil'),),
-          _NavItem(icon: Icons.auto_awesome, label: "IA"),
+          _NavItem(
+            icon: Icons.person,
+            label: "Profile",
+            onTap: () => Navigator.pushReplacementNamed(context, '/perfil'),
+          ),
+          _NavItem(
+            icon: Icons.auto_awesome,
+            label: "IA",
+            onTap: () => Navigator.pushReplacementNamed(context, '/ia'),
+          ),
         ],
       ),
     );
