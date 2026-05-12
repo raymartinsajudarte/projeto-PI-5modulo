@@ -191,7 +191,6 @@ POST: http://localhost:3000/appointments
 
 ## Listagem dos agendamentos registrados
 Para bloquear as datas de seleção ou ocultar os dias e hora que já possuem agendamentos:
-
 ## Rota de retorno dos agendamentos
 GET: http://localhost:3000/appointments
 ## Envio:
@@ -212,17 +211,29 @@ Não precisa enviar nada
 
 ## Histórico dos agendamentos
 Rota para consultar todos os agendamentos
-
 ## Rota de retorno dos agendamentos
 GET: http://localhost:3000/appointments/history
 ## Envio:
 Não precisa enviar nada
 ## Formato do retorno:
 [
-    {"id_agendamento":1,"nome":"Júlio Braido","foto":"/uploads/user_2_1775609023234.png","descricao servicos":"corte cabelo | barba","valor servicos":"R$ 40,00 | R$ 25,00","valor total":"65.00","dia":"2026-04-20T03:00:00.000Z","hora":"14:00:00","forma_pagamento":"crédito","status":"confirmado"},
-    {"id_agendamento":2,"nome":"João Victor Marcolino","foto":"/uploads/user_4_1775609345386.png","descricao servicos":"corte cabelo","valor servicos":"R$ 40,00","valor total":"40.00","dia":"2026-04-22T03:00:00.000Z","hora":"16:00:00","forma_pagamento":"débito","status":"confirmado"},
-    {"id_agendamento":4,"nome":"Júlio Braido","foto":"/uploads/user_2_1775609023234.png","descricao servicos":"corte cabelo | barba | sobrancelha","valor servicos":"R$ 40,00 | R$ 25,00 | R$ 10,00","valor total":"75.00","dia":"2026-04-23T03:00:00.000Z","hora":"10:00:00","forma_pagamento":"dinheiro","status":"confirmado"}
+    {"id_agendamento":1,"id_usuario":2,"nome":"Júlio Braido","foto":"/uploads/user_2_1775609023234.png","descricao servicos":"corte cabelo | barba","valor servicos":"R$ 40,00 | R$ 25,00","valor total":"65.00","dia":"2026-04-20","hora":"14:00","forma_pagamento":"crédito","status":"confirmado"},
+    {"id_agendamento":2,"id_usuario":4,"nome":"João Victor Marcolino","foto":"/uploads/user_4_1775609345386.png","descricao servicos":"corte cabelo","valor servicos":"R$ 40,00","valor total":"40.00","dia":"2026-04-22","hora":"16:00","forma_pagamento":"débito","status":"confirmado"},
+    {"id_agendamento":4,"id_usuario":2,"nome":"Júlio Braido","foto":"/uploads/user_2_1775609023234.png","descricao servicos":"corte cabelo | barba | sobrancelha","valor servicos":"R$ 40,00 | R$ 25,00 | R$ 10,00","valor total":"75.00","dia":"2026-04-23","hora":"10:00","forma_pagamento":"dinheiro","status":"confirmado"},
+    {"id_agendamento":5,"id_usuario":5,"nome":"Agnaldo","foto":null,"descricao servicos":"corte cabelo | barba","valor servicos":"R$ 40,00 | R$ 25,00","valor total":"65.00","dia":"2026-05-21","hora":"10:00","forma_pagamento":"dinheiro","status":"confirmado"}
 ]
+
+## Histórico dos agendamentos
+Rota para consultar agendamentos especificos 
+## Rota de retorno dos agendamentos
+GET: http://localhost:3000/appointments/history/id
+## Envio:
+Não precisa enviar nada
+## Formato do retorno:
+[
+    {"id_agendamento":5,"id_usuario":5,"nome":"Agnaldo","foto":null,"descricao servicos":"corte cabelo | barba","valor servicos":"R$ 40,00 | R$ 25,00","valor total":"65.00","dia":"2026-05-21","hora":"10:00","forma_pagamento":"dinheiro","status":"confirmado"}
+]
+
 ---
 
 ## Rota de chat com a I.A 
@@ -243,9 +254,6 @@ POST: http://localhost:3000/ia/chat
     "mensagem":"Perfeito! Seu agendamento para corte de cabelo e luzes está confirmado para sábado, dia 09/05/2026, às 09:00. O pagamento será realizado via crédito. A Barbearua Avenida agradece!","servico_escolhido":"corte cabelo, luzes","dia_escolhido":"2026-05-09","horario_escolhido":"09:00","pagamento_escolhido":"crédito","atendimento_finalizado":true
 }
 
-
-### Proxima rota, roda de exibir histórico. 
-### Melhorar a rota de ocupados - olhar sempre maior ou igual o dia de hoje, não faz sentido ver os ocupados que já ficaram pra trás.
 
 
 

@@ -76,3 +76,19 @@ exports.list_history = async (req, res) => {
         })
     }
 }
+
+exports.list_id_history = async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        const [rows] = await pool.query(
+            `select * from tb_relat_agendamentos where id_usuario = ?`,
+            [id]
+        );
+        res.status(200).json(rows)
+    } catch (error) {
+        res.status(500).json({
+            error: "Erro ao buscar historico dos agendamentos"
+        })
+    }
+}
