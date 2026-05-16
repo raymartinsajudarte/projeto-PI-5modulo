@@ -81,7 +81,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 icon: Icons.calendar_today,
                 title: 'Agendamentos',
                 onTap: () =>
-                    Navigator.pushReplacementNamed(context, ''),
+                    Navigator.pushReplacementNamed(context, '/historico'),
               ),
               Divider(
                 thickness: 1,

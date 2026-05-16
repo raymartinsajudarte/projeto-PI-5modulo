@@ -18,6 +18,7 @@ exports.login = async (req, res) => {
                 a.nome_usuario,
                 a.email, 
                 a.foto,
+                a.celular,
                 a.senha_hash,
                 c.nome as nome_perfil 
             FROM tb_usuarios a 
@@ -49,6 +50,7 @@ exports.login = async (req, res) => {
         nome_usuario: usuario.nome_usuario,
         email: usuario.email,
         foto: usuario.foto ? `${process.env.BASE_URL}${usuario.foto}` : null,
+        celular: usuario.celular,
         perfil: usuario.nome_perfil,
       },
     });

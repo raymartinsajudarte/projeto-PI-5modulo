@@ -1,94 +1,107 @@
-    const pool = require('../config/database');
+const pool = require("../config/database");
 
 exports.create = async (req, res) => {
-    let connection;
-    try {
-        connection = await pool.getConnection();
-        await connection.beginTransaction();
+  let connection;
+  try {
+    connection = await pool.getConnection();
+    await connection.beginTransaction();
 
-        //Desestruturar os dados (incluindo o array de serviços)
-        const { id_usuario, id_pagamento, valor_total, dia, hora, servicos } = req.body;
-        // Exemplo esperado de 'servicos': [{id_servico: 1, valor: 40.00}, {id_servico: 2, valor: 25.50}]
+    //Desestruturar os dados (incluindo o array de serviços)
+    const { id_usuario, id_pagamento, valor_total, dia, hora, servicos } =
+      req.body;
+    // Exemplo esperado de 'servicos': [{id_servico: 1, valor: 40.00}, {id_servico: 2, valor: 25.50}]
 
-        // 2. Inserir na tabela principal (tb_agendamentos)
-        const [resultAgendamento] = await connection.query(
-            `INSERT INTO tb_agendamentos (id_usuario, id_pagamento, valor, dia, hora) VALUES (?, ?, ?, ?, ?)`,
-            [id_usuario, id_pagamento, valor_total, dia, hora]
-        );
+    // 2. Inserir na tabela principal (tb_agendamentos)
+    const [resultAgendamento] = await connection.query(
+      `INSERT INTO tb_agendamentos (id_usuario, id_pagamento, valor, dia, hora) VALUES (?, ?, ?, ?, ?)`,
+      [id_usuario, id_pagamento, valor_total, dia, hora],
+    );
 
-        const newAgendamentoId = resultAgendamento.insertId;
+    const newAgendamentoId = resultAgendamento.insertId;
 
-        // 3. Inserir os serviços vinculados (tb_agendamento_servicos)
-        // Criamos uma única query para múltiplos inserts (performance melhor)
-        const valuesServicos = servicos.map(s => [
-            newAgendamentoId, 
-            s.id_servico, 
-            s.valor_unitario
-        ]);
+    // 3. Inserir os serviços vinculados (tb_agendamento_servicos)
+    // Criamos uma única query para múltiplos inserts (performance melhor)
+    const valuesServicos = servicos.map((s) => [
+      newAgendamentoId,
+      s.id_servico,
+      s.valor_unitario,
+    ]);
 
-        await connection.query(
-            `INSERT INTO tb_agendamento_servicos (id_agendamento, id_servico, valor_unitario) VALUES ?`,
-            [valuesServicos]
-        );
+    await connection.query(
+      `INSERT INTO tb_agendamento_servicos (id_agendamento, id_servico, valor_unitario) VALUES ?`,
+      [valuesServicos],
+    );
 
-        // 4. Se chegou aqui sem erros, confirma tudo no banco
-        await connection.commit();
-        
-        res.status(201).json({ 
-            message: 'Agendamento criado com sucesso!', 
-            id: newAgendamentoId 
-        });
+    // 4. Se chegou aqui sem erros, confirma tudo no banco
+    await connection.commit();
 
-    } catch (error) {
-        // Se algo deu errado, desfaz as alterações
-        if (connection) await connection.rollback();
-        
-        console.error(error);
-        res.status(500).json({ error: 'Erro ao criar agendamento.' });
+    res.status(201).json({
+      message: "Agendamento criado com sucesso!",
+      id: newAgendamentoId,
+    });
+  } catch (error) {
+    // Se algo deu errado, desfaz as alterações
+    if (connection) await connection.rollback();
 
-    } finally {
-        if (connection) connection.release();
-    }
+    console.error(error);
+    res.status(500).json({ error: "Erro ao criar agendamento." });
+  } finally {
+    if (connection) connection.release();
+  }
 };
 
 exports.list_shedule = async (req, res) => {
-    try {
-        const [rows] = await pool.query(
-            `select DATE_FORMAT(dia, '%Y-%m-%d') as dia, hora from tb_agendamentos where dia >= current_date() and status = 'confirmado' order by dia asc, hora asc;`
-        );
-        res.status(200).json(rows)
-    } catch (error) {
-        res.status(500).json({
-            error: 'Erro ao buscar agendamentos'
-        });
-    };
+  try {
+    const [rows] = await pool.query(
+      `select DATE_FORMAT(dia, '%Y-%m-%d') as dia, hora from tb_agendamentos where dia >= current_date() and status = 'confirmado' order by dia asc, hora asc;`,
+    );
+    res.status(200).json(rows);
+  } catch (error) {
+    res.status(500).json({
+      error: "Erro ao buscar agendamentos",
+    });
+  }
 };
 
 exports.list_history = async (req, res) => {
-    try {
-        const [rows] = await pool.query(
-            `select * from tb_relat_agendamentos;`
-        );
-        res.status(200).json(rows)
-    } catch (error) {
-        res.status(500).json({
-            error: "Erro ao buscar historico dos agendamentos"
-        })
-    }
-}
+  try {
+    const [rows] = await pool.query(`select * from tb_relat_agendamentos;`);
+    res.status(200).json(rows);
+  } catch (error) {
+    res.status(500).json({
+      error: "Erro ao buscar historico dos agendamentos",
+    });
+  }
+};
 
 exports.list_id_history = async (req, res) => {
-    try {
-        const { id } = req.params;
-        
-        const [rows] = await pool.query(
-            `select * from tb_relat_agendamentos where id_usuario = ?`,
-            [id]
-        );
-        res.status(200).json(rows)
-    } catch (error) {
-        res.status(500).json({
-            error: "Erro ao buscar historico dos agendamentos"
-        })
-    }
-}
+  try {
+    const { id } = req.params;
+
+    const [rows] = await pool.query(
+      `select * from tb_relat_agendamentos where id_usuario = ?`,
+      [id],
+    );
+    res.status(200).json(rows);
+  } catch (error) {
+    res.status(500).json({
+      error: "Erro ao buscar historico dos agendamentos",
+    });
+  }
+};
+
+// rota para cancelar o agendamento
+exports.cancel = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await pool.query(
+      `UPDATE tb_agendamentos SET status = 'cancelado' WHERE id_agendamento = ?`,
+      [id],
+    );
+
+    res.status(200).json({ message: "Agendamento cancelado com sucesso!" });
+  } catch (error) {
+    res.status(500).json({ error: "Erro ao cancelar agendamento." });
+  }
+};

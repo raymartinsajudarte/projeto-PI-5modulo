@@ -8,6 +8,18 @@ import '../viewmodels/ia_view_model.dart';
 
 const _allowedServiceIds = [1, 2, 3, 4];
 
+// Mapeamento de palavras-chave que a IA pode retornar para os IDs reais
+const _mapaServicosIA = {
+  'corte': 1,
+  'cabelo': 1,
+  'barba': 2,
+  'sobrancelha': 3,
+  'luzes': 4,
+  'descoloração': 4,
+  'descoloracao': 4,
+  'pigmentacao': 4,
+};
+
 IconData iconForService(int id) {
   switch (id) {
     case 1:
@@ -97,6 +109,9 @@ class AgendamentoViewModel extends ChangeNotifier {
   String selectedPaymentNome = '';
   int? loggedUserId;
 
+  // Dados da IA aguardando o carregamento terminar
+  DadosAgendamentoIA? dadosPendentesIA;
+
   bool get isLoading => loadingServices || loadingPayments;
 
   List<Map<String, dynamic>> get selectedServices =>
@@ -120,6 +135,12 @@ class AgendamentoViewModel extends ChangeNotifier {
       _loadUser(),
       fetchUnavailableTimes(selectedDate),
     ]);
+
+    // Após carregar tudo, preenche com dados da IA se houver pendente
+    if (dadosPendentesIA != null) {
+      preencherDadosIA(dadosPendentesIA!);
+      dadosPendentesIA = null;
+    }
   }
 
   Future<void> _loadUser() async {
@@ -145,7 +166,7 @@ class AgendamentoViewModel extends ChangeNotifier {
                 'subtitle': subtitleForService(s.id),
                 'price': s.valor,
                 'icon': iconForService(s.id),
-                'selected': s.id == 1,
+                'selected': false, // nenhum selecionado por padrão
               })
           .toList();
     } catch (_) {
@@ -225,23 +246,31 @@ class AgendamentoViewModel extends ChangeNotifier {
     // 2. Horário
     selectedTime = dados.horarioEscolhido;
 
-    // 3. Serviços — a IA retorna nomes separados por vírgula
+    // 3. Serviços — mapeia por palavras-chave
     final nomesServicos = dados.servicoEscolhido
         .split(',')
         .map((s) => s.trim().toLowerCase())
         .toList();
 
+    final idsParaSelecionar = <int>{};
+    for (final nomeIA in nomesServicos) {
+      _mapaServicosIA.forEach((chave, id) {
+        if (nomeIA.contains(chave)) {
+          idsParaSelecionar.add(id);
+        }
+      });
+    }
+
     for (var i = 0; i < services.length; i++) {
-      final nomeService =
-          (services[i]['title'] as String).toLowerCase();
-      services[i]['selected'] = nomesServicos.any((n) =>
-          nomeService.contains(n) || n.contains(nomeService));
+      services[i]['selected'] =
+          idsParaSelecionar.contains(services[i]['id']);
     }
 
     // 4. Pagamento — busca pelo nome
     final nomePagamento = dados.pagamentoEscolhido.toLowerCase().trim();
     final payment = paymentMethods.firstWhere(
-      (p) => p.nome.toLowerCase().contains(nomePagamento) ||
+      (p) =>
+          p.nome.toLowerCase().contains(nomePagamento) ||
           nomePagamento.contains(p.nome.toLowerCase()),
       orElse: () => paymentMethods.isNotEmpty
           ? paymentMethods.first
@@ -251,8 +280,6 @@ class AgendamentoViewModel extends ChangeNotifier {
     selectedPaymentNome = payment.nome;
 
     notifyListeners();
-
-    // Recarrega horários bloqueados da nova data
     fetchUnavailableTimes(selectedDate);
   }
 
