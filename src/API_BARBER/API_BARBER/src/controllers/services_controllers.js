@@ -12,3 +12,15 @@ exports.list = async (req, res) => {
     }
 }
 
+exports.list_light = async (req, res) => {
+
+    try {
+        const [rows] = await pool.query('select id_servico, nome from tb_servicos where ativo = 1;');
+        res.status(200).json(rows)
+    } catch (error) {
+        res.status(500).json({
+            error: 'Erro ao buscar serviços'
+        })
+    }
+}
+

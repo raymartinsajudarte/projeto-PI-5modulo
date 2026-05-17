@@ -238,7 +238,6 @@ Não precisa enviar nada
 
 ## Rota de chat com a I.A 
 POST: http://localhost:3000/ia/chat
-
 ## Detalhes
     A ideia é ser uma solicitação por exemplo: Quero cortar o cabelo semana que vem no periodo da manhã, a partir dai a I.A vai preencher 4 parametros para montarmos o botão para direcionar para o resumo do agendamento já preenchidos
     "servico_escolhido":"corte cabelo, luzes",
@@ -247,12 +246,27 @@ POST: http://localhost:3000/ia/chat
     "pagamento_escolhido":"crédito",
 ## Envio
 {
-    "mensagem":"Olá, gostaria de cortar o cabelo e fazer luzes no sabado as 9:00, pagamento via crédito"
+    "sessionId":"1",
+    "mensagem":"Olá gostaria de cortar o cabelo"
+}
+---
+{
+    "sessionId":"1",
+    "mensagem":"sexta-feira que vem as 17:00"
+}
+---
+{
+    "sessionId":"1",
+    "mensagem":"pagamento via pix"
 }
 ## Resposta I.A
 {
-    "mensagem":"Perfeito! Seu agendamento para corte de cabelo e luzes está confirmado para sábado, dia 09/05/2026, às 09:00. O pagamento será realizado via crédito. A Barbearua Avenida agradece!","servico_escolhido":"corte cabelo, luzes","dia_escolhido":"2026-05-09","horario_escolhido":"09:00","pagamento_escolhido":"crédito","atendimento_finalizado":true
+    "mensagem":"Agendamento confirmado! Corte de Cabelo no dia 22/05 às 17:00, com pagamento via Pix. A Barbearia Avenida agradece!","servico_escolhido":1,"dia_escolhido":"2026-05-22","horario_escolhido":"17:00:00","pagamento_escolhido":4,"atendimento_finalizado":true
 }
+## Melhorias:
+* As informações de serviço e forma de pagamento estão sendo trabalhadas por ID conforme estão registrados nas tabelas. 
+* Será necessário enviar um parametro extra no funcionamento da I.A
+
 
 
 
