@@ -8,7 +8,6 @@ class ChatMessage {
   const ChatMessage({required this.texto, required this.isUser});
 }
 
-// Dados coletados pela IA ao finalizar o atendimento
 class DadosAgendamentoIA {
   final String servicoEscolhido;
   final String diaEscolhido;
@@ -48,18 +47,23 @@ class IaViewModel extends ChangeNotifier {
     try {
       final resposta = await _service.enviarMensagem(texto.trim());
 
-      final mensagemIA = resposta['mensagem'] as String? ?? 'Desculpe, não entendi.';
-      final finalizado = resposta['atendimento_finalizado'] as bool? ?? false;
+      final mensagemIA =
+          resposta['mensagem'] as String? ?? 'Desculpe, não entendi.';
+      final finalizado =
+          resposta['atendimento_finalizado'] as bool? ?? false;
 
       mensagens.add(ChatMessage(texto: mensagemIA, isUser: false));
 
       if (finalizado) {
         atendimentoFinalizado = true;
         dadosAgendamento = DadosAgendamentoIA(
-          servicoEscolhido: resposta['servico_escolhido'] as String? ?? '',
+          servicoEscolhido:
+              resposta['servico_escolhido'] as String? ?? '',
           diaEscolhido: resposta['dia_escolhido'] as String? ?? '',
-          horarioEscolhido: resposta['horario_escolhido'] as String? ?? '',
-          pagamentoEscolhido: resposta['pagamento_escolhido'] as String? ?? '',
+          horarioEscolhido:
+              resposta['horario_escolhido'] as String? ?? '',
+          pagamentoEscolhido:
+              resposta['pagamento_escolhido'] as String? ?? '',
         );
       }
     } catch (e) {

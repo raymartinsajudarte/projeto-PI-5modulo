@@ -45,8 +45,8 @@ class _IaPageState extends State<IaPage> {
     final dados = vm.dadosAgendamento;
     if (dados == null) return;
 
-    // Passa os dados para o AgendamentoViewModel e navega
-    context.read<AgendamentoViewModel>().preencherDadosIA(dados);
+    // Guarda os dados como pendentes — serão aplicados após o init() terminar
+    context.read<AgendamentoViewModel>().dadosPendentesIA = dados;
     Navigator.pushReplacementNamed(context, '/agendamento');
   }
 
@@ -61,7 +61,7 @@ class _IaPageState extends State<IaPage> {
         toolbarHeight: 70,
         centerTitle: true,
         leading: IconButton(
-          onPressed: () => Navigator.pushReplacementNamed(context, '/edit-user'),
+          onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back, color: Color(0xFF158F00)),
         ),
         title: const Text(
