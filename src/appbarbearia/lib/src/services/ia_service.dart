@@ -4,11 +4,17 @@ import 'package:http/http.dart' as http;
 class IaService {
   static const String _baseUrl = 'http://localhost:3000';
 
-  Future<Map<String, dynamic>> enviarMensagem(String mensagem) async {
+  Future<Map<String, dynamic>> enviarMensagem({
+    required String mensagem,
+    required String sessionId,
+  }) async {
     final response = await http.post(
       Uri.parse('$_baseUrl/ia/chat'),
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'mensagem': mensagem}),
+      body: jsonEncode({
+        'mensagem': mensagem,
+        'sessionId': sessionId,
+      }),
     );
 
     final data = jsonDecode(response.body);

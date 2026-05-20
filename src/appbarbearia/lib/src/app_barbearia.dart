@@ -37,8 +37,6 @@ class AppBarbearia extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ChangePasswordViewModel()),
         ChangeNotifierProvider(create: (_) => IaViewModel()),
         ChangeNotifierProvider(create: (_) => HistoricoViewModel()),
-
-
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -56,7 +54,6 @@ class AppBarbearia extends StatelessWidget {
           '/forgot-password': (context) => ForgotPasswordPage(),
           '/alterar-senha': (context) => ChangePasswordPage(),
           '/ia': (context) => IaPage(),
-
         },
       ),
     );

@@ -1,24 +1,31 @@
-const multer = require('multer');
+const fs = require('fs');
 const path = require('path');
+const multer = require('multer');
+
+const uploadsDir = path.join(__dirname, '../../uploads');
+
+if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+}
 
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {cb(null, 'uploads/')},
+    destination: (req, file, cb) => { cb(null, uploadsDir); },
     filename: (req, file, cb) => {
-        const ext = path.extname(file.originalname);
-        cb(null, `user_${req.params.id}_${Date.now()}${ext}`)
+        const ext = path.extname(file.originalname) || '.jpg';
+        cb(null, `user_${req.params.id}_${Date.now()}${ext}`);
     }
 });
 
 const upload = multer({
-    storage, 
-    limits: {fileSize: 2 * 1024 * 1024}, //2mb
-    filefilter: (req, file, cb) => {
+    storage,
+    limits: { fileSize: 2 * 1024 * 1024 },
+    fileFilter: (req, file, cb) => {
         if (file.mimetype.startsWith('image/')) {
-            cb(null, true)
+            cb(null, true);
         } else {
-            cb(new Error('Apenas imagens são permitidas'), false)
+            cb(new Error('Apenas imagens são permitidas'), false);
         }
     },
 });
 
-module.exports = upload
+module.exports = upload;

@@ -56,16 +56,25 @@ class UserService {
 
     final streamedResponse = await request.send();
     final response = await http.Response.fromStream(streamedResponse);
-    final data = jsonDecode(response.body);
+
+    Map<String, dynamic> data = {};
+    if (response.body.isNotEmpty) {
+      try {
+        data = jsonDecode(response.body) as Map<String, dynamic>;
+      } catch (_) {}
+    }
 
     if (response.statusCode == 200) {
       final path = data['foto'] as String;
+      if (path.startsWith('http')) return path;
       if (path.startsWith('/')) {
-        return 'http://localhost:3000$path';
+        return '$_baseUrl$path';
       }
       return path;
     }
 
-    throw Exception(data['message'] ?? 'Erro ao enviar foto.');
+    throw Exception(
+      data['error'] ?? data['message'] ?? 'Erro ao enviar foto.',
+    );
   }
 }

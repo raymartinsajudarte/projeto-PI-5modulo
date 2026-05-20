@@ -8,18 +8,6 @@ import '../viewmodels/ia_view_model.dart';
 
 const _allowedServiceIds = [1, 2, 3, 4];
 
-// Mapeamento de palavras-chave que a IA pode retornar para os IDs reais
-const _mapaServicosIA = {
-  'corte': 1,
-  'cabelo': 1,
-  'barba': 2,
-  'sobrancelha': 3,
-  'luzes': 4,
-  'descoloração': 4,
-  'descoloracao': 4,
-  'pigmentacao': 4,
-};
-
 IconData iconForService(int id) {
   switch (id) {
     case 1:
@@ -227,9 +215,8 @@ class AgendamentoViewModel extends ChangeNotifier {
     }
   }
 
-  // ── Preenche dados vindos da IA ───────────────────────────────────────────
+  // ── Preenche dados vindos da IA (IDs retornados pelo backend) ─────────────
   void preencherDadosIA(DadosAgendamentoIA dados) {
-    // 1. Data
     try {
       final partes = dados.diaEscolhido.split('-');
       if (partes.length == 3) {
@@ -243,41 +230,26 @@ class AgendamentoViewModel extends ChangeNotifier {
       }
     } catch (_) {}
 
-    // 2. Horário
-    selectedTime = dados.horarioEscolhido;
-
-    // 3. Serviços — mapeia por palavras-chave
-    final nomesServicos = dados.servicoEscolhido
-        .split(',')
-        .map((s) => s.trim().toLowerCase())
-        .toList();
-
-    final idsParaSelecionar = <int>{};
-    for (final nomeIA in nomesServicos) {
-      _mapaServicosIA.forEach((chave, id) {
-        if (nomeIA.contains(chave)) {
-          idsParaSelecionar.add(id);
-        }
-      });
+    if (dados.horarioEscolhido.isNotEmpty) {
+      selectedTime = dados.horarioEscolhido;
     }
 
     for (var i = 0; i < services.length; i++) {
-      services[i]['selected'] =
-          idsParaSelecionar.contains(services[i]['id']);
+      services[i]['selected'] = services[i]['id'] == dados.servicoId;
     }
 
-    // 4. Pagamento — busca pelo nome
-    final nomePagamento = dados.pagamentoEscolhido.toLowerCase().trim();
-    final payment = paymentMethods.firstWhere(
-      (p) =>
-          p.nome.toLowerCase().contains(nomePagamento) ||
-          nomePagamento.contains(p.nome.toLowerCase()),
-      orElse: () => paymentMethods.isNotEmpty
-          ? paymentMethods.first
-          : PaymentModel(id: 0, nome: ''),
-    );
-    selectedPaymentId = payment.id;
-    selectedPaymentNome = payment.nome;
+    PaymentModel? payment;
+    for (final p in paymentMethods) {
+      if (p.id == dados.pagamentoId) {
+        payment = p;
+        break;
+      }
+    }
+
+    if (payment != null) {
+      selectedPaymentId = payment.id;
+      selectedPaymentNome = payment.nome;
+    }
 
     notifyListeners();
     fetchUnavailableTimes(selectedDate);
