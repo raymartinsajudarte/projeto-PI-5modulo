@@ -126,7 +126,7 @@ class _IaPageState extends State<IaPage> {
                   // Resumo dos dados coletados
                   _ResumoItem(
                       icon: Icons.content_cut,
-                      texto: vm.dadosAgendamento!.servicoEscolhido),
+                      texto: vm.dadosAgendamento!.servicoLabel),
                   _ResumoItem(
                       icon: Icons.calendar_today,
                       texto: vm.dadosAgendamento!.diaEscolhido),
@@ -135,7 +135,7 @@ class _IaPageState extends State<IaPage> {
                       texto: vm.dadosAgendamento!.horarioEscolhido),
                   _ResumoItem(
                       icon: Icons.payments_outlined,
-                      texto: vm.dadosAgendamento!.pagamentoEscolhido),
+                      texto: vm.dadosAgendamento!.pagamentoLabel),
                   const SizedBox(height: 12),
                   SizedBox(
                     width: double.infinity,
@@ -186,7 +186,7 @@ class _IaPageState extends State<IaPage> {
                     decoration: InputDecoration(
                       hintText: vm.atendimentoFinalizado
                           ? 'Atendimento encerrado'
-                          : 'Pipipopo.....',
+                          : 'Ex: quero agendar um corte amanhã às 14h',
                       hintStyle: const TextStyle(
                         color: Color(0xFFB2B2B2),
                         fontSize: 14,
