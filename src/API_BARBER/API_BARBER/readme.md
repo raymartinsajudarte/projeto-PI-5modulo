@@ -323,7 +323,7 @@ POST http://localhost:3000/users/'id do usuário'/foto
 A imagem deve ser enviada via `form-data` conforme o exemplo abaixo:
 
 ```txt
-![alt text](image.png)
+![alt text](image-1.png)
 ```
 
 ### Retorno

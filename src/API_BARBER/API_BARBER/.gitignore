@@ -1,4 +1,12 @@
 node_modules/
 .env
 uploads/
+../../appbarbearia/lib/src/pages/ia_page.dart
+../../appbarbearia/linux/flutter/generated_plugin_registrant.cc
+../../appbarbearia/linux/flutter/generated_plugin_registrant.h
+../../appbarbearia/linux/flutter/generated_plugins.cmake
+../../appbarbearia/macos/Flutter/GeneratedPluginRegistrant.swift
+../../appbarbearia/windows/flutter/generated_plugin_registrant.cc
+../../appbarbearia/windows/flutter/generated_plugin_registrant.h
+../../appbarbearia/windows/flutter/generated_plugins.cmake
 
