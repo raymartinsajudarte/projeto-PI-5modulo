@@ -23,7 +23,7 @@ void main() {
     test('TC01 — Agendamento válido com horário disponível', () async {
       // ARRANGE
       final agendamento = AgendamentoModel(
-        clienteNome: 'João Silva',
+        clienteNome: 'João Marcolino',
         data: DateTime(2025, 7, 10),
         horario: '10:00',
         servico: 'Corte de cabelo',
@@ -91,7 +91,7 @@ void main() {
       );
 
       final agendamento = AgendamentoModel(
-        clienteNome: 'Maria Souza',
+        clienteNome: 'Eduardo',
         data: DateTime(2025, 7, 10),
         horario: '10:00',
         servico: 'Barba',
@@ -179,10 +179,10 @@ void main() {
       );
 
       final agendamento = AgendamentoModel(
-        clienteNome: 'Ana Lima',
+        clienteNome: 'Mateus Silva',
         data: DateTime(2025, 7, 15),
         horario: '15:00',
-        servico: 'Corte feminino',
+        servico: 'corte de cabelo',
         formaPagamento: 'Pix',
       );
 
