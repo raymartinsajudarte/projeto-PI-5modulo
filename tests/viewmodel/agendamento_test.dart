@@ -27,7 +27,7 @@ void main() {
         data: DateTime(2025, 7, 10),
         horario: '10:00',
         servico: 'Corte de cabelo',
-        formaPagamento: 'Cartão de crédito',
+        formaPagamento: 'Cartão',
       );
 
       // Pré-popula o serviço com o horário disponível
@@ -94,7 +94,7 @@ void main() {
         clienteNome: 'Eduardo',
         data: DateTime(2025, 7, 10),
         horario: '10:00',
-        servico: 'Barba',
+        servico: 'Barba Completa',
         formaPagamento: 'Pix',
       );
 
@@ -124,7 +124,7 @@ void main() {
       );
       await service.adicionarHorarioDisponivel(
         data: DateTime(2025, 7, 10),
-        horario: '10:00',
+        horario: '10:00',a
       );
       await service.adicionarHorarioDisponivel(
         data: DateTime(2025, 7, 10),
