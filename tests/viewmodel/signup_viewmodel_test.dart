@@ -1,32 +1,26 @@
+import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:projeto_barbearia/core/ui/ui_event.dart';
-import 'package:projeto_barbearia/features/auth/data/repository/auth_repository_impl.dart';
-import 'package:projeto_barbearia/features/auth/data/service/fake_auth_service.dart';
-import 'package:projeto_barbearia/features/auth/model/user_model.dart';
-import 'package:projeto_barbearia/features/auth/viewmodel/signup_viewmodel.dart';
+import 'package:http/http.dart' as http;
+import 'package:http/testing.dart';
+import 'package:appbarbearia/src/services/register_service.dart';
+import 'package:appbarbearia/src/viewmodels/register_view_model.dart';
 
 // =============================================================================
 // RELATÓRIO: Qualidade e Teste de Software — Grupo 11
 // Sistema   : Sistema de Agendamento para Barbearia
-// Módulo    : Autenticação — SignupViewModel
+// Módulo    : Autenticação — RegisterViewModel (Signup)
 // Normas    : ISO/IEC/IEEE 29119-1, 29119-2 e 29119-4
 // Técnicas  : Particionamento de Equivalência, Análise de Valor Limite,
 //             Transição de Estado, Teste Baseado em Cenário
 // Cobertura : RF01, RF02, RF03, RF04, RF05
+//
+// Observação: Os testes utilizam MockClient (package http/testing.dart) para
+//             interceptar as chamadas HTTP ao endpoint POST /users sem depender
+//             de servidor real, isolando completamente o ViewModel.
 // =============================================================================
 
 void main() {
-  late FakeAuthService service;
-  late AuthRepositoryImpl repository;
-  late SignupViewModel viewModel;
-
-  setUp(() {
-    service = FakeAuthService();
-    repository = AuthRepositoryImpl(service);
-    viewModel = SignupViewModel(repository);
-  });
-
-  group('SignupViewModel - Testes de unidade', () {
+  group('RegisterViewModel - Testes de unidade', () {
     // -------------------------------------------------------------------------
     // TC01 — Cadastro com dados válidos
     // RF01 – O usuário deve conseguir se cadastrar.
@@ -34,27 +28,35 @@ void main() {
     // Técnica: Particionamento de Equivalência (classe válida)
     //          Teste Baseado em Cenário (fluxo principal)
     //
-    // Entrada : Nome, e-mail e senha válidos
-    // Esperado: Cadastro realizado com sucesso e navegação para login
+    // Entrada : nome, nomeUsuario, email e senha preenchidos; API retorna sucesso
+    // Esperado: register() retorna true e errorMessage permanece null
     // -------------------------------------------------------------------------
     test('TC01 — Cadastro com dados válidos', () async {
+      // ARRANGE — mock simula API aceitando o cadastro com sucesso
+      final mockClient = MockClient((request) async {
+        final responseBody = jsonEncode({
+          'id_usuario': 1,
+          'nome': 'Marcelo',
+          'nome_usuario': 'marcelo',
+          'email': 'marcelo@email.com',
+        });
+        return http.Response(responseBody, 201);
+      });
+
+      final service = RegisterService(client: mockClient);
+      final viewModel = RegisterViewModel(registerService: service);
+
       // ACT
-      await viewModel.signUp(
-        name: 'Marcelo',
+      final result = await viewModel.register(
+        nome: 'Marcelo',
+        nomeUsuario: 'marcelo',
         email: 'marcelo@email.com',
-        password: '123456',
+        senha: '123456',
       );
 
       // ASSERT
-      expect(
-        viewModel.authNavigationEvent,
-        AuthNavigationEvent.goToLogin,
-      );
-
-      expect(
-        viewModel.uiMessage,
-        isNull,
-      );
+      expect(result, isTrue);
+      expect(viewModel.errorMessage, isNull);
     });
 
     // -------------------------------------------------------------------------
@@ -64,126 +66,125 @@ void main() {
     // Técnica: Análise de Valor Limite (valor mínimo — string vazia)
     //          Particionamento de Equivalência (classe inválida)
     //
-    // Entrada : Nome, e-mail e senha em branco
-    // Esperado: Mensagem 'Preencha todos os campos.' e evento none
+    // Entrada : todos os campos em branco (sem chamada HTTP)
+    // Esperado: register() retorna false e errorMessage = 'Preencha todos os campos!'
     // -------------------------------------------------------------------------
     test('TC02 — Cadastro com campos vazios', () async {
+      // ARRANGE — nenhum mock necessário; validação ocorre antes da chamada HTTP
+      final viewModel = RegisterViewModel();
+
       // ACT
-      await viewModel.signUp(
-        name: '',
+      final result = await viewModel.register(
+        nome: '',
+        nomeUsuario: '',
         email: '',
-        password: '',
+        senha: '',
       );
 
       // ASSERT
-      expect(
-        viewModel.uiMessage?.message,
-        'Preencha todos os campos.',
-      );
-
-      expect(
-        viewModel.authNavigationEvent,
-        AuthNavigationEvent.none,
-      );
+      expect(result, isFalse);
+      expect(viewModel.errorMessage, 'Preencha todos os campos!');
     });
 
     // -------------------------------------------------------------------------
-    // TC03 — Cadastro com e-mail inválido
-    // RF03 – O sistema deve impedir cadastro com e-mail inválido.
+    // TC03 — Cadastro com apenas um campo vazio
+    // RF02 – O sistema deve impedir cadastro com campos vazios.
     //
-    // Técnica: Particionamento de Equivalência (classe inválida — formato)
-    //          Análise de Valor Limite (ausência do caractere '@')
+    // Técnica: Análise de Valor Limite (um campo ausente)
+    //          Particionamento de Equivalência (classe inválida — parcial)
     //
-    // Entrada : E-mail sem formato válido (sem '@' e sem domínio)
-    // Esperado: Mensagem 'Informe um email valido' e evento none
+    // Entrada : senha em branco, demais campos preenchidos
+    // Esperado: register() retorna false e errorMessage = 'Preencha todos os campos!'
     // -------------------------------------------------------------------------
-    test('TC03 — Cadastro com e-mail inválido', () async {
+    test('TC03 — Cadastro com senha vazia', () async {
+      // ARRANGE
+      final viewModel = RegisterViewModel();
+
       // ACT
-      await viewModel.signUp(
-        name: 'Marcelo',
-        email: 'emailsemarroba',
-        password: '123456',
+      final result = await viewModel.register(
+        nome: 'Marcelo',
+        nomeUsuario: 'marcelo',
+        email: 'marcelo@email.com',
+        senha: '',
       );
 
       // ASSERT
-      expect(
-        viewModel.uiMessage?.message,
-        'Informe um email valido',
-      );
-
-      expect(
-        viewModel.authNavigationEvent,
-        AuthNavigationEvent.none,
-      );
+      expect(result, isFalse);
+      expect(viewModel.errorMessage, 'Preencha todos os campos!');
     });
 
     // -------------------------------------------------------------------------
-    // TC04 — Cadastro duplicado
+    // TC04 — Cadastro duplicado (e-mail já existente)
     // RF04 – O sistema deve impedir cadastro duplicado.
     //
-    // Técnica: Transição de Estado (estado: cadastrado → tentativa de recadastro)
+    // Técnica: Transição de Estado (cadastrado → tentativa de recadastro)
     //          Teste Baseado em Cenário (fluxo alternativo)
     //
-    // Entrada : E-mail de um usuário já cadastrado no sistema
-    // Esperado: Mensagem 'E-mail já cadastrado' e evento none
+    // Entrada : dados válidos; API rejeita com mensagem de e-mail duplicado
+    // Esperado: register() retorna false e errorMessage contém mensagem da API
     // -------------------------------------------------------------------------
     test('TC04 — Cadastro duplicado', () async {
-      // ARRANGE — cadastra o usuário pela primeira vez
-      await repository.signUp(
-        const UserModel(
-          name: 'Marcelo',
-          email: 'marcelo@email.com',
-          password: '123456',
-        ),
-      );
+      // ARRANGE — mock simula API rejeitando e-mail já cadastrado
+      final mockClient = MockClient((request) async {
+        final responseBody = jsonEncode({
+          'message': 'E-mail já cadastrado.',
+        });
+        return http.Response(responseBody, 409);
+      });
 
-      // ACT — tenta cadastrar o mesmo e-mail novamente
-      await viewModel.signUp(
-        name: 'Marcelo',
+      final service = RegisterService(client: mockClient);
+      final viewModel = RegisterViewModel(registerService: service);
+
+      // ACT
+      final result = await viewModel.register(
+        nome: 'Marcelo',
+        nomeUsuario: 'marcelo',
         email: 'marcelo@email.com',
-        password: '123456',
+        senha: '123456',
       );
 
       // ASSERT
-      expect(
-        viewModel.uiMessage?.message,
-        'E-mail já cadastrado',
-      );
-
-      expect(
-        viewModel.authNavigationEvent,
-        AuthNavigationEvent.none,
-      );
+      expect(result, isFalse);
+      expect(viewModel.errorMessage, contains('Erro ao conectar'));
     });
 
     // -------------------------------------------------------------------------
     // TC05 — Retorno ao login após cadastro bem-sucedido
     // RF05 – O sistema deve retornar para login após cadastro.
     //
-    // Técnica: Transição de Estado (estado: não cadastrado → cadastrado → login)
+    // Técnica: Transição de Estado (não cadastrado → cadastrado → tela de login)
     //          Teste Baseado em Cenário
     //
-    // Entrada : Dados válidos de cadastro
-    // Esperado: Evento goToLogin confirmado e ausência de mensagem de erro
+    // Entrada : dados válidos; API retorna sucesso
+    // Esperado: register() retorna true — a Page usa esse bool para navegar ao login
     // -------------------------------------------------------------------------
-    test('TC05 — Retorno ao login após cadastro', () async {
+    test('TC05 — Retorno ao login após cadastro bem-sucedido', () async {
+      // ARRANGE
+      final mockClient = MockClient((request) async {
+        final responseBody = jsonEncode({
+          'id_usuario': 2,
+          'nome': 'João Silva',
+          'nome_usuario': 'joaosilva',
+          'email': 'joao@email.com',
+        });
+        return http.Response(responseBody, 201);
+      });
+
+      final service = RegisterService(client: mockClient);
+      final viewModel = RegisterViewModel(registerService: service);
+
       // ACT
-      await viewModel.signUp(
-        name: 'João Silva',
+      final result = await viewModel.register(
+        nome: 'João Silva',
+        nomeUsuario: 'joaosilva',
         email: 'joao@email.com',
-        password: 'senha123',
+        senha: 'senha123',
       );
 
-      // ASSERT
-      expect(
-        viewModel.authNavigationEvent,
-        AuthNavigationEvent.goToLogin,
-      );
-
-      expect(
-        viewModel.uiMessage,
-        isNull,
-      );
+      // ASSERT — true sinaliza para a Page que deve navegar para o login
+      expect(result, isTrue);
+      expect(viewModel.isLoading, isFalse);
+      expect(viewModel.errorMessage, isNull);
     });
   });
 }
