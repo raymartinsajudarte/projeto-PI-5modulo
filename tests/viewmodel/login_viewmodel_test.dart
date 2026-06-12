@@ -1,10 +1,11 @@
+import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:projeto_barbearia/core/ui/ui_event.dart';
-import 'package:projeto_barbearia/features/auth/data/repository/auth_repository_impl.dart';
-import 'package:projeto_barbearia/features/auth/data/service/fake_auth_service.dart';
-import 'package:projeto_barbearia/features/auth/model/user_model.dart';
-import 'package:projeto_barbearia/features/auth/viewmodel/login_viewmodel.dart';
- 
+import 'package:http/http.dart' as http;
+import 'package:http/testing.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:appbarbearia/src/services/auth_service.dart';
+import 'package:appbarbearia/src/viewmodels/login_view_model.dart';
+
 // =============================================================================
 // RELATÓRIO: Qualidade e Teste de Software — Grupo 11
 // Sistema   : Sistema de Agendamento para Barbearia
@@ -13,19 +14,19 @@ import 'package:projeto_barbearia/features/auth/viewmodel/login_viewmodel.dart';
 // Técnicas  : Particionamento de Equivalência, Análise de Valor Limite,
 //             Transição de Estado, Teste Baseado em Cenário
 // Cobertura : RF06, RF07, RF08
+//
+// Observação: Os testes utilizam MockClient (package http/testing.dart) para
+//             interceptar as chamadas HTTP sem depender de servidor real.
+//             SharedPreferences.setMockInitialValues({}) simula o armazenamento
+//             local, isolando completamente o ViewModel durante os testes.
 // =============================================================================
- 
+
 void main() {
-  late FakeAuthService service;
-  late AuthRepositoryImpl repository;
-  late LoginViewModel viewModel;
- 
   setUp(() {
-    service = FakeAuthService();
-    repository = AuthRepositoryImpl(service);
-    viewModel = LoginViewModel(repository);
+    // Simula o SharedPreferences localmente sem acesso ao dispositivo real
+    SharedPreferences.setMockInitialValues({});
   });
- 
+
   group('LoginViewModel - Testes de unidade', () {
     // -------------------------------------------------------------------------
     // TC06 — Login válido
@@ -34,37 +35,41 @@ void main() {
     // Técnica: Particionamento de Equivalência (classe válida)
     //          Teste Baseado em Cenário (fluxo principal)
     //
-    // Entrada : E-mail e senha corretos de um usuário previamente cadastrado
-    // Esperado: Evento de navegação goToHome e ausência de mensagem de erro
+    // Entrada : username e password preenchidos; API retorna user válido
+    // Esperado: login() retorna true e errorMessage permanece null
     // -------------------------------------------------------------------------
     test('TC06 — Login válido', () async {
-      // ARRANGE — cadastra o usuário antes de tentar o login
-      await repository.signUp(
-        const UserModel(
-          name: 'Marcelo',
-          email: 'marcelo@email.com',
-          password: '123456',
-        ),
-      );
- 
+      // ARRANGE — mock retorna um usuário válido
+      final mockClient = MockClient((request) async {
+        final responseBody = jsonEncode({
+          'message': 'Login realizado com sucesso!',
+          'user': {
+            'id': 1,
+            'nome': 'Marcelo',
+            'nome_usuario': 'marcelo',
+            'email': 'marcelo@email.com',
+            'foto': null,
+            'celular': null,
+            'perfil': 'cliente',
+          },
+        });
+        return http.Response(responseBody, 200);
+      });
+
+      final service = AuthService(client: mockClient);
+      final viewModel = LoginViewModel(authService: service);
+
       // ACT
-      await viewModel.login(
-        email: 'marcelo@email.com',
+      final result = await viewModel.login(
+        username: 'marcelo',
         password: '123456',
       );
- 
+
       // ASSERT
-      expect(
-        viewModel.authNavigationEvent,
-        AuthNavigationEvent.goToHome,
-      );
- 
-      expect(
-        viewModel.uiMessage,
-        isNull,
-      );
+      expect(result, isTrue);
+      expect(viewModel.errorMessage, isNull);
     });
- 
+
     // -------------------------------------------------------------------------
     // TC07 — Login com campos vazios
     // RF07 – O sistema deve impedir login com campos vazios.
@@ -72,102 +77,99 @@ void main() {
     // Técnica: Análise de Valor Limite (valor mínimo — string vazia)
     //          Particionamento de Equivalência (classe inválida)
     //
-    // Entrada : E-mail e senha em branco
-    // Esperado: Mensagem 'Preencha email e senha.' e evento none
+    // Entrada : username e password em branco (sem chamada HTTP)
+    // Esperado: login() retorna false e errorMessage = 'Preencha todos os campos!'
     // -------------------------------------------------------------------------
     test('TC07 — Login com campos vazios', () async {
+      // ARRANGE — nenhum mock necessário; validação ocorre antes da chamada HTTP
+      final viewModel = LoginViewModel();
+
       // ACT
-      await viewModel.login(
-        email: '',
+      final result = await viewModel.login(
+        username: '',
         password: '',
       );
- 
+
       // ASSERT
-      expect(
-        viewModel.uiMessage?.message,
-        'Preencha email e senha.',
-      );
- 
-      expect(
-        viewModel.authNavigationEvent,
-        AuthNavigationEvent.none,
-      );
+      expect(result, isFalse);
+      expect(viewModel.errorMessage, 'Preencha todos os campos!');
     });
- 
+
     // -------------------------------------------------------------------------
-    // TC08 — Login inválido (senha incorreta)
+    // TC08 — Login inválido (credenciais incorretas)
     // RF08 – O sistema deve impedir login inválido.
     //
     // Técnica: Particionamento de Equivalência (classe inválida)
-    //          Transição de Estado (estado: não autenticado → permanece não autenticado)
+    //          Transição de Estado (não autenticado → permanece não autenticado)
     //
-    // Entrada : E-mail correto + senha errada de usuário cadastrado
-    // Esperado: Mensagem 'E-mail ou senha invalidos' e evento none
+    // Entrada : username existente + password incorreto; API retorna user null
+    // Esperado: login() retorna false e errorMessage exibe mensagem da API
     // -------------------------------------------------------------------------
     test('TC08 — Login inválido', () async {
-      // ARRANGE — cadastra o usuário antes de tentar o login com senha errada
-      await repository.signUp(
-        const UserModel(
-          name: 'Marcelo',
-          email: 'marcelo@email.com',
-          password: '123456',
-        ),
-      );
- 
+      // ARRANGE — mock simula credenciais rejeitadas pela API
+      final mockClient = MockClient((request) async {
+        final responseBody = jsonEncode({
+          'message': 'Credenciais inválidas!',
+          'user': null,
+        });
+        return http.Response(responseBody, 401);
+      });
+
+      final service = AuthService(client: mockClient);
+      final viewModel = LoginViewModel(authService: service);
+
       // ACT
-      await viewModel.login(
-        email: 'marcelo@email.com',
+      final result = await viewModel.login(
+        username: 'marcelo',
         password: 'senhaerrada',
       );
- 
+
       // ASSERT
-      expect(
-        viewModel.uiMessage?.message,
-        'E-mail ou senha invalidos',
-      );
- 
-      expect(
-        viewModel.authNavigationEvent,
-        AuthNavigationEvent.none,
-      );
+      expect(result, isFalse);
+      expect(viewModel.errorMessage, 'Credenciais inválidas!');
     });
- 
+
     // -------------------------------------------------------------------------
     // TC09 — Navegação para Home após login válido
-    // (Complementar ao TC06 — rastreabilidade RF06)
+    // RF06 – (complementar) Transição de estado confirmada.
     //
-    // Técnica: Transição de Estado (estado: não autenticado → autenticado → Home)
+    // Técnica: Transição de Estado (não autenticado → autenticado)
     //          Teste Baseado em Cenário
     //
     // Entrada : Credenciais corretas
-    // Esperado: Evento goToHome confirmado e ausência de qualquer mensagem
+    // Esperado: login() retorna true, isLoading volta para false e sem erros
     // -------------------------------------------------------------------------
-    test('TC09 — Navegação para Home', () async {
+    test('TC09 — Estado após login válido (isLoading e errorMessage)', () async {
       // ARRANGE
-      await repository.signUp(
-        const UserModel(
-          name: 'Marcelo',
-          email: 'marcelo@email.com',
-          password: '123456',
-        ),
-      );
- 
+      final mockClient = MockClient((request) async {
+        final responseBody = jsonEncode({
+          'message': 'Login realizado com sucesso!',
+          'user': {
+            'id': 1,
+            'nome': 'Marcelo',
+            'nome_usuario': 'marcelo',
+            'email': 'marcelo@email.com',
+            'foto': null,
+            'celular': null,
+            'perfil': 'cliente',
+          },
+        });
+        return http.Response(responseBody, 200);
+      });
+
+      final service = AuthService(client: mockClient);
+      final viewModel = LoginViewModel(authService: service);
+
       // ACT
-      await viewModel.login(
-        email: 'marcelo@email.com',
+      final result = await viewModel.login(
+        username: 'marcelo',
         password: '123456',
       );
- 
-      // ASSERT
-      expect(
-        viewModel.authNavigationEvent,
-        AuthNavigationEvent.goToHome,
-      );
- 
-      expect(
-        viewModel.uiMessage,
-        isNull,
-      );
+
+      // ASSERT — após conclusão, isLoading deve ser false e sem erro
+      expect(result, isTrue);
+      expect(viewModel.isLoading, isFalse);
+      expect(viewModel.errorMessage, isNull);
     });
   });
 }
